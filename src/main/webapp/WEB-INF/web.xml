@@ -22,12 +22,9 @@
             1
         </load-on-startup>
     </servlet>
-
     <servlet-mapping>
         <servlet-name>springMVC</servlet-name>
         <!--直接拦截所有请求，不再采用spring2.0的/*或者*.do方式-->
         <url-pattern>/</url-pattern>
     </servlet-mapping>
-
-
 </web-app>
