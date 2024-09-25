@@ -1,9 +1,14 @@
 package com.company.project.mapper;
 
+import com.company.project.entity.User;
+import org.apache.ibatis.annotations.Mapper;
+
 /**
  * @description:
  * @author: ManolinCoder
  * @time: 2024/9/24
  */
-public class UserMapper {
+@Mapper
+public interface UserMapper {
+    Integer addUser(User user);
 }
