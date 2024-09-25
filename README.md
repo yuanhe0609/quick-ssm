@@ -44,3 +44,58 @@
     </servlet-mapping>
 </web-app>
 ```
+* jdbc.properties
+```
+#基本信息
+druid.driver=com.mysql.cj.jdbc.Driver
+druid.jdbc_url=jdbc:mysql://localhost:3306/springmvc?characterEncoding=utf8
+druid.username=root
+druid.password=123456
+#初始化个数
+druid.initialSize=0
+#最大连接池数
+druid.maxActive=20
+#最小连接池数
+druid.minIdle=1
+#最大等待事件
+druid.maxWait=60000
+druid.timeBetweenEvictionRunsMillis=60000
+druid.minEvictableIdleTimeMillis=300000
+druid.validationQuery=SELECT 'x'
+druid.testWhileIdle=true
+druid.testOnBorrow=false
+druid.testOnReturn=false
+druid.maxOpenPreparedStatements=20
+druid.removeAbandoned=true
+druid.removeAbandonedTimeout=1800
+druid.logAbandoned=true
+```
+* spring-mvc.xml
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <!--开启自动扫描带web注解的类-->
+    <context:component-scan base-package="com.company.project.controller"/>
+
+    <!--开启基于注解的开发-->
+    <mvc:annotation-driven/>
+    <!--开启对静态资源的过滤-->
+    <mvc:default-servlet-handler/>
+    <!--配置视图解析-->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+</beans>
+```
