@@ -8,9 +8,9 @@
 * mybatis：mybatis 3.5.2
 * spring：spring 4.3.6.RELEASE
 ### 2)技术整合 ###
-* druid连接池
 * fastJSON2
 * redis
+* rabbitmq
 ## 2.配置文件 ##
 * web.xml
 ```
