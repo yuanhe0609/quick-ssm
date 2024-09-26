@@ -1,5 +1,5 @@
 # ssm项目快速搭建 #
-## spring，springmvc，mybatis基础上整合了redis，rabbitmq的快速开发框架 ##
+## spring，springmvc，mybatis基础上整合了redis，mongodb，rabbitmq的快速开发框架 ##
 ### 1.项目配置 ###
 #### 1)开发环境 ####
 * server：tomcat 9.0.93
