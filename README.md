@@ -10,6 +10,7 @@
 ### 2)技术整合 ###
 * druid连接池
 * fastJSON2
+* redis
 ## 2.配置文件 ##
 * web.xml
 ```
