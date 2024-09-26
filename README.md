@@ -12,3 +12,4 @@
 * fastJSON2
 * redis
 * rabbitmq
+* mongodb
