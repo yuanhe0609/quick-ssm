@@ -6,6 +6,7 @@ import com.alibaba.fastjson2.JSONObject;
 import com.company.project.entity.User;
 import com.company.project.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,8 +22,12 @@ public class UserController {
 
     @Autowired
     UserMapper userMapper;
+
     @Autowired
     RedisTemplate redisTemplate;
+
+    @Autowired
+    MongoTemplate mongoTemplate;
 
     @RequestMapping("/login")
     public String login(){
