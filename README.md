@@ -30,9 +30,10 @@
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 
         <!--配置springmvc的配置文件-->
+        <!--在此配置需要的服务，不需要只需删掉配置文件路径-->
         <init-param>
             <param-name>contextConfigLocation</param-name>
-            <param-value>classpath*:spring/spring-*.xml, 配置spring(springdao，springmvc，springservice)
+            <param-value>classpath:spring/spring-*.xml, 配置spring(springdao，springmvc，springservice)
                          classpath:swagger/spring-*.xml, 配置swagger
                          classpath:redis/spring-*.xml, 配置redis
                          classpath:mongodb/spring-*.xml 配置mongodb
