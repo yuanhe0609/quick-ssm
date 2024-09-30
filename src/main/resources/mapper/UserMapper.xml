@@ -5,6 +5,7 @@
     <insert id="register" keyProperty="uid">
         insert into t_user (name) values (#{name})
     </insert>
+
 </mapper>
 
 
