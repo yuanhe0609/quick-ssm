@@ -1,5 +1,6 @@
 package com.company.project.service;
 
+import com.company.project.entity.User;
 import org.springframework.stereotype.Service;
 
 /**
@@ -9,4 +10,5 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public interface IUserService {
+    Integer register(User user);
 }

@@ -27,21 +27,19 @@ import org.springframework.web.servlet.ModelAndView;
 public class UserController {
 
     @Autowired
-    UserMapper userMapper;
+    private UserMapper userMapper;
 
     @Autowired
-    RedisTemplate redisTemplate;
+    private RedisTemplate redisTemplate;
 
-    private static final Logger log = LoggerFactory.getLogger(UserController.class);
     @RequestMapping("/login")
     @ApiOperation(value = "根据id查询学生信息", notes = "查询学生", response = java.lang.String.class)
     public String login(){
-        redisTemplate.opsForValue().set("login", "1");
-        Object msg = redisTemplate.opsForValue().get("login");
-        log.info("slf4j print info msg:{}",msg);
+
         User user = new User();
-        user.setName("test01");
-        userMapper.addUser(user);
-        return JSON.toJSONString(user);
+        user.setName("test");
+        user.setPassword("123456");
+
+        return JSON.toJSONString(userMapper.register(user));
     }
 }
