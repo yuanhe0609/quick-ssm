@@ -30,7 +30,7 @@
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 
         <!--配置springmvc的配置文件-->
-        <!--在此配置需要的服务，不需要只需删掉配置文件路径-->
+        <!--在此配置需要的服务，不需要的服务只需删掉配置文件路径-->
         <init-param>
             <param-name>contextConfigLocation</param-name>
             <param-value>classpath:spring/spring-*.xml, 配置spring(springdao，springmvc，springservice)
