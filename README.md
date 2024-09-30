@@ -5,7 +5,7 @@
 * server：tomcat 9.0.93
 * jdk：jdk 22
 * maven：maven 3.9.8
-* spring:spring 4.3.6.RELEASE
+* spring：spring 4.3.6.RELEASE
 * mysql：mysql 8.0.28
 * mybatis：mybatis 3.5.2
 * redis：redis 5.0.14.1
