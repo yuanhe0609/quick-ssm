@@ -35,6 +35,7 @@ public class UserController {
     @Autowired
     private RedisTemplate redisTemplate;
 
+
     @Autowired
     private MongoTemplate mongoTemplate;
 
