@@ -22,9 +22,6 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     private UserMapper userMapper;
 
-    @Autowired
-    MongoTemplate mongoTemplate;
-
     @Override
     public Integer register(User user) {
         Integer row = userMapper.register(user);

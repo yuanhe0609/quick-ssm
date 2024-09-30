@@ -5,6 +5,6 @@
 
     <bean class="com.company.project.utils.SwaggerConfig"/>
 
-    <mvc:resources mapping="/swagger-ui/**" location="/WEB-INF/swagger"/>
+    <mvc:resources mapping="/swagger/**" location="/WEB-INF/swagger"/>
 
 </beans>

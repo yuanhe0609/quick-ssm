@@ -16,7 +16,11 @@
         <!--配置springmvc的配置文件-->
         <init-param>
             <param-name>contextConfigLocation</param-name>
-            <param-value>classpath:spring-*.xml</param-value>
+            <param-value>classpath*:spring/spring-*.xml,
+                         classpath:swagger/spring-*.xml
+                         classpath:redis/spring-*.xml
+                         classpath:mongodb/spring-*.xml
+            </param-value>
         </init-param>
         <load-on-startup>
             1
