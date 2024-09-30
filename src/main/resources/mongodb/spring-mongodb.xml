@@ -17,8 +17,8 @@
                               socket-timeout="${mongo.socketTimeout}"/>
     </mongo:mongo-client>
 
+    <!--配置mongoDbFactory对象-->
     <mongo:db-factory id="mongoDbFactory"  dbname="${mongo.dbname}"  mongo-ref="mongo"/>
-
 
     <!--配置mongoTemplate-->
     <!-- mongodb的主要操作对象，所有对mongodb的增删改查的操作都是通过它完成-->

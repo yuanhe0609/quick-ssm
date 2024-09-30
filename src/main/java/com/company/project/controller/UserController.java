@@ -32,7 +32,10 @@ public class UserController {
     @Autowired
     private RedisTemplate redisTemplate;
 
-    @RequestMapping("/login")
+    @Autowired
+    private MongoTemplate mongoTemplate;
+
+    @RequestMapping("/register")
     @ApiOperation(value = "根据id查询学生信息", notes = "查询学生", response = java.lang.String.class)
     public String login(){
 

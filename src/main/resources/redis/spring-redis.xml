@@ -23,7 +23,6 @@
         <property name="password" value="${redis.password}"/>
         <property name="timeout" value="${redis.timeout}"/>
         <property name="poolConfig" ref="jedisPoolConfig"/>
-
     </bean>
 
     <!-- redisTemplate配置 -->
