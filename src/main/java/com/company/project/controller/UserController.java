@@ -5,6 +5,7 @@ import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.company.project.entity.User;
 import com.company.project.mapper.UserMapper;
+import com.company.project.service.impl.UserServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +30,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class UserController {
 
     @Autowired
-    private UserMapper userMapper;
+    private UserServiceImpl userService;
 
     @Autowired
     private RedisTemplate redisTemplate;
@@ -44,6 +45,8 @@ public class UserController {
         User user = new User();
         user.setName("test");
         user.setPassword("123456");
+
+        userService.register(user);
 
         return JSON.toJSONString(user);
     }
