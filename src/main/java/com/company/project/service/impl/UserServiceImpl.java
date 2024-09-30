@@ -24,8 +24,9 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public Integer register(User user) {
+
         Integer row = userMapper.register(user);
-        log.info("update row:",row);
+
         return row;
     }
 }

@@ -7,6 +7,7 @@ import com.company.project.entity.User;
 import com.company.project.mapper.UserMapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @RestController
 @Api(value = "userController")
+@Slf4j
 public class UserController {
 
     @Autowired
@@ -36,13 +38,13 @@ public class UserController {
     private MongoTemplate mongoTemplate;
 
     @RequestMapping("/register")
-    @ApiOperation(value = "根据id查询学生信息", notes = "查询学生", response = java.lang.String.class)
+    @ApiOperation(value = "根据name,password注册", notes = "用户注册", response = java.lang.String.class)
     public String login(){
 
         User user = new User();
         user.setName("test");
         user.setPassword("123456");
 
-        return JSON.toJSONString(userMapper.register(user));
+        return JSON.toJSONString(user);
     }
 }

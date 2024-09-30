@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
  * @author: ManolinCoder
  * @time: 2024/9/25
  */
-@Service
 public interface IUserService {
+
     Integer register(User user);
 }
