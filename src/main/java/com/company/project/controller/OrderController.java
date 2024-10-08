@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -25,7 +26,7 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
-    @PostMapping("/buy/{uid}")
+    @RequestMapping("/buy/{uid}")
     @ApiOperation(value = "根据uid进行抢购", notes = "抢购",httpMethod = "POST", response = java.lang.String.class)
     public String buy(@PathVariable Integer uid) {
         Order order = new Order();
@@ -35,7 +36,7 @@ public class OrderController {
         return JSON.toJSONString(new JsonResult(200,row));
     }
 
-    @PostMapping("/start")
+    @RequestMapping("/start")
     @ApiOperation(value = "开始抢购活动", notes = "开始" , httpMethod = "POST",response = java.lang.String.class)
     public String start() {
         orderService.start();

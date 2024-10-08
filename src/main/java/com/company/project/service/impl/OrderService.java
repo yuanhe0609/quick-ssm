@@ -30,6 +30,7 @@ public class OrderService implements IOrderService {
     @SneakyThrows
     @Override
     public String addOrder(Order order) {
+        Integer uid = order.getUid();
         Boolean lock = redisTemplate.opsForValue().setIfAbsent("lock","true");
         if(lock) {
             if (Integer.parseInt((redisTemplate.opsForValue().get("num").toString())) > 0) {
@@ -38,15 +39,14 @@ public class OrderService implements IOrderService {
                 redisTemplate.opsForValue().set("num", String.valueOf(Integer.parseInt(String.valueOf(redisTemplate.opsForValue().get("num"))) - 1));
                 orderMapper.insertOrder(order);
                 redisTemplate.delete("lock");
-                return "" + redisTemplate.opsForValue().get("num");
-
+                return "uid:" + uid + ",msg:" + redisTemplate.opsForValue().get("num");
             } else {
-                return "sold out!";
+                redisTemplate.delete("lock");
+                return "uid:" + uid + ",msg:sold out!";
             }
-        }else {
+        } else {
             Thread.sleep(100);
-            addOrder(order);
+            return addOrder(order);
         }
-        return "end!";
     }
 }
