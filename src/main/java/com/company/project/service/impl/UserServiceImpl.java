@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 /**
  * @description:
@@ -28,5 +30,10 @@ public class UserServiceImpl implements IUserService {
         Integer row = userMapper.register(user);
 
         return row;
+    }
+
+    @Override
+    public List<User> login() {
+        return userMapper.getUser();
     }
 }

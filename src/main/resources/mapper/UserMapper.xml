@@ -5,7 +5,9 @@
     <insert id="register" keyProperty="uid">
         insert into t_user (name,password) values (#{name},#{password})
     </insert>
-
+    <select id="getUser" resultType="com.company.project.entity.User">
+        select * from t_user
+    </select>
 </mapper>
 
 

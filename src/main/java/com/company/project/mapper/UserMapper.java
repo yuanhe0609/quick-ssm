@@ -3,6 +3,8 @@ package com.company.project.mapper;
 import com.company.project.entity.User;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 /**
  * @description:
  * @author: ManolinCoder
@@ -11,4 +13,6 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface UserMapper {
     Integer register(User user);
+
+    List<User> getUser();
 }

@@ -7,13 +7,14 @@ import lombok.NoArgsConstructor;
 /**
  * @description:
  * @author: ManolinCoder
- * @time: 2024/9/24
+ * @time: 2024/10/8
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
-    private Integer uid;
-    private String name;
-    private String password;
+public class Order {
+    private int oid;
+    private int uid;
+    private String num;
+    private String price;
 }

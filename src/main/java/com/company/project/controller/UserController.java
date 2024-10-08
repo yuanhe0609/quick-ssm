@@ -35,13 +35,12 @@ public class UserController {
     @Autowired
     private RedisTemplate redisTemplate;
 
-
     @Autowired
     private MongoTemplate mongoTemplate;
 
     @RequestMapping("/register")
-    @ApiOperation(value = "根据name,password注册", notes = "用户注册", response = java.lang.String.class)
-    public String login(){
+    @ApiOperation(value = "根据name,password注册", httpMethod = "POST", notes = "用户注册", response = java.lang.String.class)
+    public String register(){
 
         User user = new User();
         user.setName("test");
@@ -50,5 +49,11 @@ public class UserController {
         userService.register(user);
 
         return JSON.toJSONString(user);
+    }
+    @RequestMapping("/login")
+    @ApiOperation(value = "根据name,password登录验证",notes="用户登录", httpMethod = "POST", response = java.lang.String.class)
+    public String login(){
+
+        return JSON.toJSONString(userService.login());
     }
 }
