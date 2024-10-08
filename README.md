@@ -34,7 +34,7 @@
         <init-param>
             <param-name>contextConfigLocation</param-name>
             <param-value>classpath:spring/spring-*.xml, 配置spring(springdao，springmvc，springservice)
-                         classpath:swagger/spring-*.xml, 配置swagger
+                         classpath:swagger/spring-*.xml, 配置swagger (url地址:http://{ip}:{port}/{project_name}/swagger-ui.html)
                          classpath:redis/spring-*.xml, 配置redis
                          classpath:mongodb/spring-*.xml 配置mongodb
             </param-value>
