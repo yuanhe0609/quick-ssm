@@ -17,6 +17,8 @@
     <mvc:annotation-driven/>
     <!--开启对静态资源的过滤-->
     <mvc:default-servlet-handler/>
+    <!-- 静态资源映射 -->
+    <mvc:resources mapping="/static/**" location="/static/" cache-period="31536000" />
     <!--配置视图解析-->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
