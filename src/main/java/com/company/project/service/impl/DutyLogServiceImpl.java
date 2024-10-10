@@ -255,6 +255,13 @@ public class DutyLogServiceImpl implements IDutyLogService {
                     }
                 }
                 dutyLog.setOnDutyTime(getWorkTime(onJob, offJob)+getOverTime(onJob, offJob));
+                dutyLog.setOnWorkTime(getWorkTime(onJob, offJob)+getOverTime(onJob, offJob));
+                dutyLog.setAttendanceOnWeekdays(weekdayWorkTime);
+                dutyLog.setOverTimeOnWeekdays(weekdayOverTime);
+                dutyLog.setAttendanceOnWeekends(weekendWorkTime);
+                dutyLog.setOverTimeOnWeekends(weekendOverTime);
+                dutyLog.setAttendanceOnHoliday(festivalWorkTime);
+                dutyLog.setOverTimeOnHoliday(festivalOverTime);
             }
         }
         return null;
