@@ -4,6 +4,7 @@ import com.company.project.service.impl.DutyLogService;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,14 +27,14 @@ public class DutyLogController {
     @Autowired
     private DutyLogService dutyLogService;
 
-    @RequestMapping("/get_log")
-    public String getLog() throws SQLException, ParseException {
-        dutyLogService.calculateWorkTime();
-        String dateString = "2024-10-1";
+    @RequestMapping("/get_log/{name}")
+    public String getLog(@PathVariable String name) throws SQLException, ParseException {
+//        dutyLogService.calculateWorkTime();
 
-        Date date= new SimpleDateFormat("yyyy-MM-dd").parse(dateString);
+        String dateString = "2024-09";
+        Date date= new SimpleDateFormat("yyyy-MM").parse(dateString);
 
-        dutyLogService.calculateMounthWorkTime(date);
+        dutyLogService.calculateMounthWorkTime(date,name);
         return "";
     }
 }
