@@ -36,6 +36,7 @@ public class DutyLogService implements IDutyLogService {
     public void calculateWorkTime() throws SQLException, ParseException {
         //连接数据库
         Connection conn = DbUtil.getConnection();
+        Date nowDate = new Date(System.currentTimeMillis());
         //姓名，身份证号，班次，上岗时间，离岗时间
         String selectDutyLogSql = "select xm,sfzh,bc,sgsj,lgsj from uf_duty_log";
         //在岗时间，工作时间，平日出勤，平日加班，周末出勤，周末加班，节日出勤，节日加班，姓名，班次，上岗时间
@@ -121,7 +122,6 @@ public class DutyLogService implements IDutyLogService {
                 psUpdate.setObject(11,DutyLogRs.getString("sgsj"));
                 psUpdate.executeUpdate();
             }
-
         }
     }
     /**
@@ -134,12 +134,15 @@ public class DutyLogService implements IDutyLogService {
         Connection conn = DbUtil.getConnection();
         Calendar calDate = Calendar.getInstance();
         calDate.setTime(date);
+
+        String selectSql = "select * from uf_duty_log where modedatacreatedate like ? and xm = ? order by sgsj";
+        String insertDayLogSql = "insert into t_day_log (xm,cqsj,jbsj,month,day) select ?,?,?,?,? from dual where not exists(select xm from t_day_log where xm = ? and month = ? and day = ?)";
+        String insertMonthLogSql = "insert into t_month_log (xm,yf,zcqxss,zcts,prcqxs,prjbxs) select ?,?,?,?,?,? from dual where not exists(select xm from t_month_log where xm = ? and yf = ?)";
+        PreparedStatement psSelect = conn.prepareStatement(selectSql);
+        PreparedStatement psInsertDayLog = conn.prepareStatement(insertDayLogSql);
+        PreparedStatement psInsertMonthLog = conn.prepareStatement(insertMonthLogSql);
         int year = calDate.get(Calendar.YEAR);
         int month = calDate.get(Calendar.MONTH)+1;
-        String selectSql = "select * from uf_duty_log where modedatacreatedate like ? and xm = ? order by sgsj";
-        String insertSql = "insert into t_person_log (xm,cqsj,jbsj,month,day) values (?,?,?,?,?)";
-        PreparedStatement psSelect = conn.prepareStatement(selectSql);
-        PreparedStatement psInsert = conn.prepareStatement(insertSql);
         if(month<10){
             psSelect.setString(1,year+"-0"+month+"-%");
         }else{
@@ -151,6 +154,8 @@ public class DutyLogService implements IDutyLogService {
         Map<Integer,Float> cqMap = new HashMap<>();
         Map<Integer,Float> jbMap = new HashMap<>();
         System.out.println(name+"月度出勤记录-------------------------------------");
+        Float totalWorkTime = 0f;
+        Float totalOverTime = 0f;
         while(rs.next()){
             Calendar everyCal = StringToCalendar(rs.getString("modedatacreatedate"),sdfNoTime);
             Integer everyday = everyCal.get(Calendar.DAY_OF_MONTH);
@@ -186,15 +191,24 @@ public class DutyLogService implements IDutyLogService {
         while(cqit.hasNext() || jbit.hasNext()){
             Map.Entry<Integer,Float> cq = cqit.next();
             Map.Entry<Integer,Float> jb = jbit.next();
-            System.out.println("出勤时间:"+cq.getValue()+"加班时间:"+jb.getValue());
-            psInsert.setObject(1,name);
-            psInsert.setObject(2,cq.getValue());
-            psInsert.setObject(3,jb.getValue());
-            psInsert.setObject(4,month);
-            psInsert.setObject(5,cq.getKey());
-            psInsert.executeUpdate();
+            totalWorkTime += cq.getValue();
+            totalOverTime += jb.getValue();
         }
+        System.out.println("totalWorkTime:"+totalWorkTime);
+        System.out.println("totalOverTime:"+totalOverTime);
+
+        psInsertMonthLog.setObject(1,name);
+        psInsertMonthLog.setObject(2,month);
+        psInsertMonthLog.setObject(3,totalWorkTime+totalOverTime);
+        psInsertMonthLog.setObject(4,(totalWorkTime+totalOverTime)/24);
+        psInsertMonthLog.setObject(5,totalWorkTime);
+        psInsertMonthLog.setObject(6,totalOverTime);
+        psInsertMonthLog.setObject(7,name);
+        psInsertMonthLog.setObject(8,month);
+        psInsertMonthLog.executeUpdate();
+
     }
+
     /**
      * @description sting类型转换到calendar类型
      * @param s 要变化的日期，String类型
