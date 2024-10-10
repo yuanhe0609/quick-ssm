@@ -186,8 +186,10 @@ public class DutyLogServiceImpl implements IDutyLogService {
         }
     }
     /**
-     * @description 计算一线员工每日的工作时间
-     * @return dutyLogResultSet
+     * @description 计算加班时间
+     * @param dutyLogResultSet
+     * @param holidayResultSet
+     * @return list
      * */
     @Override
     public List<DutyLog> updateAttendanceList(ResultSet dutyLogResultSet,ResultSet holidayResultSet) throws SQLException {
