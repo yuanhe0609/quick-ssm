@@ -188,9 +188,9 @@ public class DutyLogServiceImpl implements IDutyLogService {
     }
     /**
      * @description 计算加班时间
-     * @param dutyLogResultSet
-     * @param holidayResultSet
-     * @return list
+     * @param ResultSet dutyLogResultSet
+     * @param ResultSet holidayResultSet
+     * @return list<DutyLog> result
      * */
     @Override
     public List<DutyLog> updateAttendanceList(ResultSet dutyLogResultSet,ResultSet holidayResultSet) throws SQLException {
@@ -262,9 +262,10 @@ public class DutyLogServiceImpl implements IDutyLogService {
                 dutyLog.setOverTimeOnWeekends(weekendOverTime);
                 dutyLog.setAttendanceOnHoliday(festivalWorkTime);
                 dutyLog.setOverTimeOnHoliday(festivalOverTime);
+                result.add(dutyLog);
             }
         }
-        return null;
+        return result;
     }
     @Override
     public void calculateMonthWorkTime() {
