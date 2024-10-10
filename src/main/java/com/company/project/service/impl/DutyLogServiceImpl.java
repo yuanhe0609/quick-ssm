@@ -3,6 +3,7 @@ package com.company.project.service.impl;
 import com.company.project.entity.DutyLog;
 import com.company.project.entity.Employee;
 import com.company.project.service.IDutyLogService;
+import org.springframework.stereotype.Service;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,6 +20,7 @@ import java.util.List;
  * @author: yuanhe0609
  * @time: 2024/10/10
  */
+@Service
 public class DutyLogServiceImpl implements IDutyLogService {
     /**
      * @description 定义日期格式
