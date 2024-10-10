@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -193,7 +194,11 @@ public class DutyLogServiceImpl implements IDutyLogService {
      * */
     @Override
     public List<DutyLog> updateAttendanceList(ResultSet dutyLogResultSet,ResultSet holidayResultSet) throws SQLException {
+
+        List<DutyLog> result = new ArrayList<>();
+
         while (dutyLogResultSet.next()) {
+            DutyLog dutyLog = new DutyLog();
             //员工月度计算对象
             String name = dutyLogResultSet.getString(sqlName);
             String idNum = dutyLogResultSet.getString(sqlIdNum);
@@ -249,6 +254,7 @@ public class DutyLogServiceImpl implements IDutyLogService {
                         weekdayOverTime = getOverTime(onJob, offJob);
                     }
                 }
+                dutyLog.setOnDutyTime(getWorkTime(onJob, offJob)+getOverTime(onJob, offJob));
             }
         }
         return null;
