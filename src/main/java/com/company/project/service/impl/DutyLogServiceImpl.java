@@ -1,6 +1,7 @@
 package com.company.project.service.impl;
 
 import com.company.project.entity.DutyLog;
+import com.company.project.entity.Employee;
 import com.company.project.service.IDutyLogService;
 
 import java.sql.ResultSet;
@@ -18,12 +19,95 @@ import java.util.List;
  * @time: 2024/10/10
  */
 public class DutyLogServiceImpl implements IDutyLogService {
-    //定义日期格式
+    /**
+     * @description 定义日期格式
+     * @type SimpleDateFormat
+     * @default yyyy-MM-dd HH:mm:ss
+     * */
     private final SimpleDateFormat sdfWithTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    /**
+     * @description 定义日期格式
+     * @type SimpleDateFormat
+     * @default yyyy-MM-dd
+     * */
     private final SimpleDateFormat sdfNoTime = new SimpleDateFormat("yyyy-MM-dd");
-    //定义浮点数小数点个数
+    //
+    /**
+     * @description 定义浮点数小数点个数
+     * @type DecimalFormat
+     * @default 1位数
+     * */
     private final DecimalFormat df = new DecimalFormat("0.0");
-
+    /**
+     * @description 用于数据库操作的生产人员姓名字段的字段名
+     * @type String
+     * @default xm
+     * */
+    private String sqlName = "xm";
+    /**
+     * @description 用于数据库操作的生产人员身份证号字段的字段名
+     * @type String
+     * @default sfzh
+     * */
+    private String sqlIdNum = "sfzh";
+    /**
+     * @description 用于数据库操作的生产人员当日上岗时间字段的字段名
+     * @type String
+     * @default sgsj
+     * */
+    private String sqlOnDutyTime = "sgsj";
+    /**
+     * @description 用于数据库操作的生产人员离岗时间字段的字段名
+     * @type String
+     * @default lgsj
+     * */
+    private String sqlOffDutyTime = "lgsj";
+    /**
+     * @description 用于数据库操作的休假日类型字段的字段名
+     * @type String
+     * @default changetype
+     * */
+    private String sqlHolidayType = "changetype";
+    /**
+     * @description 设置用于数据库操作的生产人员姓名字段的字段名
+     * @param sqlName 要使用的字段名
+     * @return void
+     * */
+    public void setSqlName(String sqlName) {
+        this.sqlName = sqlName;
+    }
+    /**
+     * @description 设置用于数据库操作的休假日类型字段的字段名
+     * @param sqlHolidayType 要使用的字段名
+     * @return void
+     * */
+    public void setSqlHolidayType(String sqlHolidayType) {
+        this.sqlHolidayType = sqlHolidayType;
+    }
+    /**
+     * @description 设置用于数据库操作的生产人员离岗时间字段的字段名
+     * @param sqlOffDutyTime 要使用的字段名
+     * @return void
+     * */
+    public void setSqlOffDutyTime(String sqlOffDutyTime) {
+        this.sqlOffDutyTime = sqlOffDutyTime;
+    }
+    /**
+     * @description 设置用于数据库操作的生产人员当日上岗时间字段的字段名
+     * @param sqlOnDutyTime 要使用的字段名
+     * @return void
+     * */
+    public void setSqlOnDutyTime(String sqlOnDutyTime) {
+        this.sqlOnDutyTime = sqlOnDutyTime;
+    }
+    /**
+     * @description 设置用于数据库操作的生产人员身份证号字段的字段名
+     * @param sqlIdNum 要使用的字段名
+     * @return void
+     * */
+    public void setSqlIdNum(String sqlIdNum) {
+        this.sqlIdNum = sqlIdNum;
+    }
     /**
      * @description sting类型转换到calendar类型
      * @param s 要变化的日期，String类型
@@ -101,23 +185,26 @@ public class DutyLogServiceImpl implements IDutyLogService {
             return 0f;
         }
     }
-
+    /**
+     * @description 计算一线员工每日的工作时间
+     * @return dutyLogResultSet
+     * */
     @Override
     public List<DutyLog> updateAttendanceList(ResultSet dutyLogResultSet,ResultSet holidayResultSet) throws SQLException {
         while (dutyLogResultSet.next()) {
             //员工月度计算对象
-            String name = dutyLogResultSet.getString("xm");
-            String idNum = dutyLogResultSet.getString("sfzh");
+            String name = dutyLogResultSet.getString(sqlName);
+            String idNum = dutyLogResultSet.getString(sqlIdNum);
             Float weekdayWorkTime = 0f;
             Float weekdayOverTime = 0f;
             Float weekendWorkTime = 0f;
             Float weekendOverTime = 0f;
             Float festivalWorkTime = 0f;
             Float festivalOverTime = 0f;
-            if (dutyLogResultSet.getString("sgsj") != null && dutyLogResultSet.getString("lgsj") != null) {
+            if (dutyLogResultSet.getString(sqlOnDutyTime) != null && dutyLogResultSet.getString(sqlOffDutyTime) != null) {
                 //从数据库获取上岗时间和离岗时间
-                Calendar onJob = StringToCalendar(dutyLogResultSet.getString("sgsj"), sdfWithTime);
-                Calendar offJob = StringToCalendar(dutyLogResultSet.getString("lgsj"), sdfWithTime);
+                Calendar onJob = StringToCalendar(dutyLogResultSet.getString(sqlOnDutyTime), sdfWithTime);
+                Calendar offJob = StringToCalendar(dutyLogResultSet.getString(sqlOffDutyTime), sdfWithTime);
                 //获取当日星期
                 int dayOfWeekInt = getWeekInt(onJob);
                 //输出
@@ -144,10 +231,10 @@ public class DutyLogServiceImpl implements IDutyLogService {
                 System.out.println("现下班时间:" + offJob.getTime());
                 //计算工时，并持久化
                 if (holidayResultSet.next()) {
-                    if (holidayResultSet.getString("changetype").equals("1") || holidayResultSet.getString("changetype").equals("3")) {
+                    if (holidayResultSet.getString(sqlHolidayType).equals("1") || holidayResultSet.getString(sqlHolidayType).equals("3")) {
                         festivalWorkTime = getWorkTime(onJob, offJob);
                         festivalOverTime = getOverTime(onJob, offJob);
-                    } else if (holidayResultSet.getString("changetype").equals("2")) {
+                    } else if (holidayResultSet.getString(sqlHolidayType).equals("2")) {
                         weekdayWorkTime = getWorkTime(onJob, offJob);
                         weekdayOverTime = getOverTime(onJob, offJob);
                     }
@@ -168,4 +255,6 @@ public class DutyLogServiceImpl implements IDutyLogService {
     public void calculateMonthWorkTime() {
 
     }
+
+
 }
