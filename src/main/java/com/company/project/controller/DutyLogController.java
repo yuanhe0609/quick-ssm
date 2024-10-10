@@ -34,7 +34,7 @@ public class DutyLogController {
         String dateString = "2024-09";
         Date date= new SimpleDateFormat("yyyy-MM").parse(dateString);
 
-        dutyLogService.calculateMounthWorkTime(date,name);
+        dutyLogService.calculateMonthWorkTime(date,name);
         return "";
     }
 }

@@ -22,7 +22,7 @@ import static java.lang.Float.valueOf;
  * @time: 2024/10/9
  */
 @Service
-public class DutyLogService implements IDutyLogService {
+public class DutyLogService{
 
     //定义日期格式
     private final SimpleDateFormat sdfWithTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -130,7 +130,7 @@ public class DutyLogService implements IDutyLogService {
      * @param name 工人姓名
      * @return 无
      * */
-    public void calculateMounthWorkTime(Date date,String name) throws SQLException, ParseException {
+    public void calculateMonthWorkTime(Date date,String name) throws SQLException, ParseException {
         Connection conn = DbUtil.getConnection();
         Calendar calDate = Calendar.getInstance();
         calDate.setTime(date);
