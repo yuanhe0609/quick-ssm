@@ -58,7 +58,6 @@ public class DutyLogController {
     @RequestMapping("/calculate_log/{name}")
     public String calculateLog(@PathVariable String name) throws SQLException, ParseException {
         IDutyLogService dutyLogService = new DutyLogServiceImpl();
-
         Connection conn = DbUtil.getConnection();
         String selectSql = "select * from uf_duty_log where modedatacreatedate like ? and xm = ? order by sgsj";
         PreparedStatement psSelect = conn.prepareStatement(selectSql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);

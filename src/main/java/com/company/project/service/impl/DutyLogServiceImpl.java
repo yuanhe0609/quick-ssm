@@ -23,93 +23,7 @@ import java.util.*;
 @Service
 @Slf4j
 public class DutyLogServiceImpl implements IDutyLogService {
-    /**
-     * @description 定义日期格式
-     * @type SimpleDateFormat
-     * @default yyyy-MM-dd HH:mm:ss
-     * */
-    private final SimpleDateFormat sdfWithTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    /**
-     * @description 定义日期格式
-     * @type SimpleDateFormat
-     * @default yyyy-MM-dd
-     * */
-    private final SimpleDateFormat sdfNoTime = new SimpleDateFormat("yyyy-MM-dd");
-    //
-    /**
-     * @description 定义浮点数小数点个数
-     * @type DecimalFormat
-     * @default 1位数
-     * */
-    private final DecimalFormat df = new DecimalFormat("0.0");
-    /**
-     * @description 用于数据库操作的生产人员姓名字段的字段名
-     * @type String
-     * @default xm
-     * */
-    private String sqlName = "xm";
-    /**
-     * @description 用于数据库操作的生产人员身份证号字段的字段名
-     * @type String
-     * @default sfzh
-     * */
-    private String sqlIdNum = "sfzh";
-    /**
-     * @description 用于数据库操作的生产人员当日上岗时间字段的字段名
-     * @type String
-     * @default sgsj
-     * */
-    private String sqlOnDutyTime = "sgsj";
-    /**
-     * @description 用于数据库操作的生产人员离岗时间字段的字段名
-     * @type String
-     * @default lgsj
-     * */
-    private String sqlOffDutyTime = "lgsj";
-    /**
-     * @description 用于数据库操作的休假日类型字段的字段名
-     * @type String
-     * @default changetype
-     * */
-    private String sqlHolidayType = "changetype";
-    /**
-     * @description 设置用于数据库操作的生产人员姓名字段的字段名
-     * @param sqlName 要使用的字段名
-     * @return void
-     * */
-    public void setSqlName(String sqlName) {
-        this.sqlName = sqlName;
-    }
-    /**
-     * @description 设置用于数据库操作的生产人员离岗时间字段的字段名
-     * @param sqlOffDutyTime 要使用的字段名
-     * @return void
-     * */
-    public void setSqlOffDutyTime(String sqlOffDutyTime) {
-        this.sqlOffDutyTime = sqlOffDutyTime;
-    }
-    /**
-     * @description 设置用于数据库操作的生产人员当日上岗时间字段的字段名
-     * @param sqlOnDutyTime 要使用的字段名
-     * @return void
-     * */
-    public void setSqlOnDutyTime(String sqlOnDutyTime) {
-        this.sqlOnDutyTime = sqlOnDutyTime;
-    }
-    /**
-     * @description 设置用于数据库操作的生产人员身份证号字段的字段名
-     * @param sqlIdNum 要使用的字段名
-     * @return void
-     * */
-    public void setSqlIdNum(String sqlIdNum) {
-        this.sqlIdNum = sqlIdNum;
-    }
-    /**
-     * @description 设置用于数据库操作的休假日类型字段的字段名
-     * @param sqlHolidayType 要使用的字段名
-     * @return void
-     * */
-    public void setSqlHolidayType(String sqlHolidayType) {this.sqlHolidayType = sqlHolidayType;}
+
     /**
      * @description sting类型转换到calendar类型
      * @param s 要变化的日期，String类型
@@ -171,7 +85,7 @@ public class DutyLogServiceImpl implements IDutyLogService {
         if(getJetLegHour(onJob,offJob) > 8){
             return 8F;
         }else{
-            return getJetLegHour(onJob, offJob)+ Float.valueOf(df.format(getJetLegMin(onJob,offJob) / 60));
+            return getJetLegHour(onJob, offJob)+ Float.valueOf(DF.format(getJetLegMin(onJob,offJob) / 60));
         }
     }
     /**
@@ -182,7 +96,7 @@ public class DutyLogServiceImpl implements IDutyLogService {
      * */
     private Float getOverTime(Calendar onJob,Calendar offJob){
         if(getJetLegHour(onJob,offJob) > 8){
-            return getJetLegHour(onJob,offJob)-8 + Float.valueOf(df.format(getJetLegMin(onJob,offJob) / 60));
+            return getJetLegHour(onJob,offJob)-8 + Float.valueOf(DF.format(getJetLegMin(onJob,offJob) / 60));
         }else{
             return 0F;
         }
@@ -203,7 +117,7 @@ public class DutyLogServiceImpl implements IDutyLogService {
             psSelectHolidaySet.setString(1,year+"-"+month+"-"+day);
             ResultSet holidaySetRs = psSelectHolidaySet.executeQuery();
             if(holidaySetRs.next()){
-                holidayType = holidaySetRs.getString(sqlHolidayType);
+                holidayType = holidaySetRs.getString(SQL_HOLIDAY_TYPE);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -222,7 +136,7 @@ public class DutyLogServiceImpl implements IDutyLogService {
         Map<Integer,Float> dailyWorkTime = new HashMap<>();
         Map<Integer,Float> dailyOverTime = new HashMap<>();
         while(dutyLogResultSet.next()){
-            Calendar nowCalendar = StringToCalendar(dutyLogResultSet.getString("modedatacreatedate"),sdfNoTime);
+            Calendar nowCalendar = StringToCalendar(dutyLogResultSet.getString("modedatacreatedate"),SDF_NO_TIME);
             Integer nowaday = nowCalendar.get(Calendar.DAY_OF_MONTH);
             if(!dailyWorkTime.containsKey(nowaday) && !dailyOverTime.containsKey(nowaday)){
                 dailyWorkTime.put(nowaday,dutyLogResultSet.getFloat(workType));
@@ -279,18 +193,18 @@ public class DutyLogServiceImpl implements IDutyLogService {
         while (dutyLogResultSet.next()) {
             DutyLog dutyLog = new DutyLog();
             //员工月度计算对象
-            String name = dutyLogResultSet.getString(sqlName);
-            String idNum = dutyLogResultSet.getString(sqlIdNum);
+            String name = dutyLogResultSet.getString(SQL_NAME);
+            String idNum = dutyLogResultSet.getString(SQL_IDNUM);
             Float weekdayWorkTime = 0F;
             Float weekdayOverTime = 0F;
             Float weekendWorkTime = 0F;
             Float weekendOverTime = 0F;
             Float festivalWorkTime = 0F;
             Float festivalOverTime = 0F;
-            if (dutyLogResultSet.getString(sqlOnDutyTime) != null && dutyLogResultSet.getString(sqlOffDutyTime) != null) {
+            if (dutyLogResultSet.getString(SQL_ON_DUTY_TIME) != null && dutyLogResultSet.getString(SQL_OFF_DUTY_TIME) != null) {
                 //从数据库获取上岗时间和离岗时间
-                Calendar onJob = StringToCalendar(dutyLogResultSet.getString(sqlOnDutyTime), sdfWithTime);
-                Calendar offJob = StringToCalendar(dutyLogResultSet.getString(sqlOffDutyTime), sdfWithTime);
+                Calendar onJob = StringToCalendar(dutyLogResultSet.getString(SQL_ON_DUTY_TIME), SDF_WITH_TIME);
+                Calendar offJob = StringToCalendar(dutyLogResultSet.getString(SQL_OFF_DUTY_TIME), SDF_WITH_TIME);
                 //获取当日星期
                 int dayOfWeekInt = getWeekInt(onJob);
                 //输出
@@ -357,7 +271,7 @@ public class DutyLogServiceImpl implements IDutyLogService {
     @Override
     public List calculateMonthWorkTime(ResultSet dutyLogResultSet) throws SQLException {
 
-        Map<Integer,Float> dailyWeekdaysWorkTimeMap = getWorkTimeAndOverTimeMap(dutyLogResultSet,"prcq","prjb").get(0);
+        Map<Integer,Float> dailyWeekdaysWorkTimeMap = getWorkTimeAndOverTimeMap(dutyLogResultSet,SQL_WORK_TIME_ON_WEEKDAYS,SQL_OVER_TIME_ON_WEEKDAYS).get(0);
         Map<Integer,Float> dailyWeekdaysOverTimeMap = getWorkTimeAndOverTimeMap(dutyLogResultSet,"prcq","prjb").get(1);
         Map<Integer,Float> dailyWeekendsWorkTimeMap = getWorkTimeAndOverTimeMap(dutyLogResultSet,"zmcq","zmjb").get(0);
         Map<Integer,Float> dailyWeekendsOverTimeMap = getWorkTimeAndOverTimeMap(dutyLogResultSet,"zmcq","zmjb").get(1);
