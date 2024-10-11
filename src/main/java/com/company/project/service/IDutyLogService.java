@@ -12,7 +12,7 @@ import java.util.List;
  * @time: 2024/10/9
  */
 public interface IDutyLogService {
-    public List<DutyLog> updateAttendanceList(ResultSet dutyLogResultSet,ResultSet holidayResultSet) throws SQLException;
+    public List<DutyLog> updateAttendanceList(ResultSet dutyLogResultSet) throws SQLException;
 
-    public void calculateMonthWorkTime();
+    public List calculateMonthWorkTime(ResultSet dutyLogResultSet) throws SQLException;
 }

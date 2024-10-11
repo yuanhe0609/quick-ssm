@@ -51,12 +51,12 @@ public class DutyLogService{
             //员工月度计算对象
             String name = DutyLogRs.getString("xm");
             String idNum = DutyLogRs.getString("sfzh");
-            Float weekdayWorkTime = 0f;
-            Float weekdayOverTime = 0f;
-            Float weekendWorkTime = 0f;
-            Float weekendOverTime = 0f;
-            Float festivalWorkTime = 0f;
-            Float festivalOverTime = 0f;
+            Float weekdayWorkTime = 0F;
+            Float weekdayOverTime = 0F;
+            Float weekendWorkTime = 0F;
+            Float weekendOverTime = 0F;
+            Float festivalWorkTime = 0F;
+            Float festivalOverTime = 0F;
             if(DutyLogRs.getString("sgsj") != null && DutyLogRs.getString("lgsj") != null){
                 //从数据库获取上岗时间和离岗时间
                 Calendar onJob = StringToCalendar(DutyLogRs.getString("sgsj"),sdfWithTime);
@@ -154,8 +154,8 @@ public class DutyLogService{
         Map<Integer,Float> cqMap = new HashMap<>();
         Map<Integer,Float> jbMap = new HashMap<>();
         System.out.println(name+"月度出勤记录-------------------------------------");
-        Float totalWorkTime = 0f;
-        Float totalOverTime = 0f;
+        Float totalWorkTime = 0F;
+        Float totalOverTime = 0F;
         while(rs.next()){
             Calendar everyCal = StringToCalendar(rs.getString("modedatacreatedate"),sdfNoTime);
             Integer everyday = everyCal.get(Calendar.DAY_OF_MONTH);
