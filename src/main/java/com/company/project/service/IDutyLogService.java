@@ -1,12 +1,11 @@
 package com.company.project.service;
-
 import com.company.project.entity.DutyLog;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @description:
@@ -26,14 +25,12 @@ public interface IDutyLogService {
      * @default yyyy-MM-dd
      * */
     final SimpleDateFormat SDF_NO_TIME = new SimpleDateFormat("yyyy-MM-dd");
-    //
     /**
      * @description 定义浮点数小数点个数
      * @type DecimalFormat
      * @default 1位数
      * */
     final DecimalFormat DF = new DecimalFormat("0.0");
-
     /**
      * @description 用于数据库操作的生产人员姓名字段的字段名
      * @type String
@@ -64,19 +61,53 @@ public interface IDutyLogService {
      * @default changetype
      * */
     String SQL_HOLIDAY_TYPE = "changetype";
-
+    /**
+     * @description 用于数据库操作的平日出勤时间字段的字段名
+     * @type String
+     * @default prcq
+     * */
     String SQL_WORK_TIME_ON_WEEKDAYS = "prcq";
-
+    /**
+     * @description 用于数据库操作的平日加班时间字段的字段名
+     * @type String
+     * @default prjb
+     * */
     String SQL_OVER_TIME_ON_WEEKDAYS = "prjb";
-
+    /**
+     * @description 用于数据库操作的周末出勤时间字段的字段名
+     * @type String
+     * @default zmcq
+     * */
     String SQL_WORK_TIME_ON_WEEKENDS = "zmcq";
-
+    /**
+     * @description 用于数据库操作的周末加班时间字段的字段名
+     * @type String
+     * @default zmjb
+     * */
     String SQL_OVER_TIME_ON_WEEKENDS = "zmjb";
-
+    /**
+     * @description 用于数据库操作的节日出勤时间字段的字段名
+     * @type String
+     * @default jrcq
+     * */
     String SQL_WORK_TIME_ON_HOLIDAY = "jrcq";
-
+    /**
+     * @description 用于数据库操作的节日加班时间字段的字段名
+     * @type String
+     * @default jrjb
+     * */
     String SQL_OVER_TIME_ON_HOLIDAY = "jrjb";
-    public List<DutyLog> updateAttendanceList(ResultSet dutyLogResultSet) throws SQLException;
-
-    public List calculateMonthWorkTime(ResultSet dutyLogResultSet) throws SQLException;
+    /**
+     * @description 更新出勤表
+     * @param dutyLogResultSet ResultSet
+     * @return result List<DutyLog>
+     * */
+    public List<DutyLog> calculateAttendanceList(ResultSet dutyLogResultSet) throws SQLException;
+    /**
+     * @description 计算每月出勤,加班时间
+     * @param dutyLogResultSet ResultSet (因需要反复利用ResultSet,需在prepareStatement设置ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY)
+     * @return result List<DutyLog>
+     */
+    public Map<String,Map> calculateDailyWorkTime(ResultSet dutyLogResultSet) throws SQLException;
+    public void calculateTotalWorkTime(ResultSet dutyLogResultSet) throws SQLException;
 }
