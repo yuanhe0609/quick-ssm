@@ -100,7 +100,7 @@ public class DbUtil {
     }
     public static void updateMonthDutyLog( List<TotalDutyLog> totalDutyLogList,String month){
         Connection conn = getConnection();
-        String updateSql = "insert into uf_monthly_log (xm,sfzh,yf,zcqxss,zcts,yq,prcqxs,prjbxs,zmzcxs,zmjbxs) select ?,?,?,?,?,?,?,?,?,? from DUAL where not exists(select xm,yf from uf_monthly_log where xm =? and yf = ?)";
+        String updateSql = "insert into uf_monthly_log (xm,sfzh,yf,zcqxss,zcts,yq,prcqxs,prjbxs,zmzcxs,zmjbxs,jrzcxs,jrjbxs) select ?,?,?,?,?,?,?,?,?,?,?,? from DUAL where not exists(select xm,yf from uf_monthly_log where xm =? and yf = ?)";
         try {
             for(TotalDutyLog totalDutyLog : totalDutyLogList){
                 PreparedStatement psUpdate = conn.prepareStatement(updateSql);
@@ -113,9 +113,11 @@ public class DbUtil {
                 psUpdate.setObject(7,totalDutyLog.getTotalWorkTimeOnWeekdays());
                 psUpdate.setObject(8,totalDutyLog.getTotalOverTimeOnWeekdays());
                 psUpdate.setObject(9,totalDutyLog.getTotalWorkTimeOnWeekends());
-                psUpdate.setObject(10,totalDutyLog.getTotalOverTimeOnHoliday());
-                psUpdate.setObject(11,totalDutyLog.getName());
-                psUpdate.setObject(12,month);
+                psUpdate.setObject(10,totalDutyLog.getTotalOverTimeOnWeekends());
+                psUpdate.setObject(11,totalDutyLog.getTotalWorkTimeOnHoliday());
+                psUpdate.setObject(12,totalDutyLog.getTotalOverTimeOnHoliday());
+                psUpdate.setObject(13,totalDutyLog.getName());
+                psUpdate.setObject(14,month);
                 psUpdate.executeUpdate();
             }
         } catch (SQLException e) {
