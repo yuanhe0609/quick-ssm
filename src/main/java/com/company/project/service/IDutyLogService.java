@@ -109,5 +109,5 @@ public interface IDutyLogService {
      * @return result List<DutyLog>
      */
     public Map<String,Map> calculateDailyWorkTime(ResultSet dutyLogResultSet) throws SQLException;
-    public void calculateTotalWorkTime(ResultSet dutyLogResultSet) throws SQLException;
+    public DutyLog calculateTotalWorkTime(ResultSet dutyLogResultSet) throws SQLException;
 }

@@ -30,13 +30,27 @@ public class DbUtil {
         return conn;
     }
 
-    public static ResultSet getDutyLogResultSet(String name){
+    public static ResultSet getTotalDutyLogResultSet(String date){
         Connection conn = getConnection();
-        String selectSql = "select * from uf_duty_log where sgsj like ? and xm = ? order by sgsj";
+        String selectSql = "select * from uf_duty_log where sgsj like ? order by xm,sgsj";
         PreparedStatement psSelect = null;
         try {
             psSelect = conn.prepareStatement(selectSql, ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
-            psSelect.setObject(1,"2024-09-%");
+            psSelect.setObject(1,date);
+            ResultSet dutyLogRs = psSelect.executeQuery();
+            return dutyLogRs;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static ResultSet getDutyLogResultSet(String name,String date){
+        Connection conn = getConnection();
+        String selectSql = "select * from uf_duty_log where sgsj like ? and xm = ? order by xm,sgsj";
+        PreparedStatement psSelect = null;
+        try {
+            psSelect = conn.prepareStatement(selectSql, ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+            psSelect.setObject(1,date);
             psSelect.setObject(2,name);
             ResultSet dutyLogRs = psSelect.executeQuery();
             return dutyLogRs;
