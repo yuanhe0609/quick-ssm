@@ -8,13 +8,12 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
-
 /**
  * @description:
  * @author: ManolinCoder
  * @time: 2024/10/9
  */
-public interface IDutyLogService {
+public interface DutyLogCalculateFormula {
     /**
      * @description 定义日期格式
      * @type SimpleDateFormat
@@ -45,6 +44,12 @@ public interface IDutyLogService {
      * @default sfzh
      * */
     String SQL_IDNUM = "sfzh";
+    /**
+     * @description 用于数据库操作的生产人员当日上岗时间字段的字段名
+     * @type String
+     * @default sgsj
+     * */
+    String SQL_WORK_TYPE = "bc";
     /**
      * @description 用于数据库操作的生产人员当日上岗时间字段的字段名
      * @type String
@@ -102,15 +107,31 @@ public interface IDutyLogService {
     /**
      * @description 更新出勤表
      * @param dutyLogResultSet ResultSet
-     * @return result List<DutyLog>
+     * @return result List<DailyDutyLog>
      * */
     public List<DailyDutyLog> calculateAttendanceList(ResultSet dutyLogResultSet) throws SQLException;
     /**
-     * @description 计算每月出勤,加班时间
+     * @description 计算个人每日出勤,加班时间
      * @param dutyLogResultSet ResultSet (因需要反复利用ResultSet,需在prepareStatement设置ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY)
-     * @return result List<DutyLog>
+     * @return result List<Map>
      */
     public Map<String,Map> calculateDailyWorkTime(ResultSet dutyLogResultSet) throws SQLException;
-    public Map<String,Map> calculateDailyWorkTime(List<DailyDutyLog> dutyLogList) throws SQLException;
+    /**
+     * @description 计算所有人每日出勤,加班时间
+     * @param dutyLogResultSet Map<String,List<DailyDutyLog>>
+     * @return result List<Map<String,Map>>
+     */
+    public List<Map<String,Map>> calculateDailyWorkTime(Map<String,List<DailyDutyLog>> dutyLogResultSet);
+    /**
+     * @description 计算个人每月总出勤,加班,夜勤时间
+     * @param dutyLogResultSet ResultSet (因需要反复利用ResultSet,需在prepareStatement设置ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY)
+     * @return result DutyLog
+     */
     public TotalDutyLog calculateTotalWorkTime(ResultSet dutyLogResultSet) throws SQLException;
+    /**
+     * @description 计算所有人每月总出勤,加班,夜勤时间
+     * @param dutyLogResultSet Map<String,List<DailyDutyLog>>
+     * @return result List<TotalDutyLog>
+     */
+    public List<TotalDutyLog> calculateTotalWorkTime(Map<String,List<DailyDutyLog>> dutyLogResultSet);
 }

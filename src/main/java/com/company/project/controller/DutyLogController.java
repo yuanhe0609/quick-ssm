@@ -3,8 +3,8 @@ package com.company.project.controller;
 import com.alibaba.fastjson2.JSON;
 import com.company.project.entity.DailyDutyLog;
 import com.company.project.entity.TotalDutyLog;
-import com.company.project.service.IDutyLogService;
-import com.company.project.service.impl.DutyLogServiceImpl;
+import com.company.project.service.DutyLogCalculateFormula;
+import com.company.project.service.impl.DutyLogCalculateImpl;
 import com.company.project.utils.DbUtil;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +17,7 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @description:
@@ -30,18 +31,12 @@ public class DutyLogController {
     @RequestMapping("/calculate_log/{name}")
     public String calculateLog(@PathVariable String name) throws SQLException, ParseException {
 
-        IDutyLogService dutyLogService = new DutyLogServiceImpl();
+        DutyLogCalculateFormula dutyLogService = new DutyLogCalculateImpl();
         ResultSet totalDutyLogRs = DbUtil.getTotalDutyLogResultSet("2024-09-%");
-        ResultSet dutyLogRs = DbUtil.getDutyLogResultSet(name,"2024-09-%");
         List<DailyDutyLog> dailyDutyLogList = dutyLogService.calculateAttendanceList(totalDutyLogRs);
-//        Map<String,Map> dailyWorkTime = dutyLogService.calculateDailyWorkTime(dutyLogRs);
-//        TotalDutyLog totalWorkTime = dutyLogService.calculateTotalWorkTime(dutyLogRs);
-        Map dailyWorkTime = dutyLogService.calculateDailyWorkTime(dailyDutyLogList);
-//        System.out.println(JSON.toJSONString(dailyDutyLogList));
-        System.out.println(JSON.toJSONString(dailyWorkTime));
-//        System.out.println(JSON.toJSONString(dailyWorkTime));
-//        System.out.println(JSON.toJSONString(totalWorkTime));
-
-        return JSON.toJSONString(dutyLogService.calculateDailyWorkTime(dutyLogRs));
+        Map<String, List<DailyDutyLog>> classMap = dailyDutyLogList.stream().collect(Collectors.groupingBy(DailyDutyLog::getName));
+//        List<Map<String,Map>> list = dutyLogService.calculateDailyWorkTime(classMap);
+        List<TotalDutyLog> list = dutyLogService.calculateTotalWorkTime(classMap);
+        return JSON.toJSONString(list);
     }
 }

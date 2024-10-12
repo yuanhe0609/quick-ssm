@@ -10,7 +10,7 @@ import java.util.Date;
  * @author: ManolinCoder
  * @time: 2024/10/11
  */
-public class BaseCalculateFormula {
+public class BaseCalculate {
     /**
      * @description sting类型转换到calendar类型
      * @param s 要变化的日期，String类型

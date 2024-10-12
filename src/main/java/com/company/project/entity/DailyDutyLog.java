@@ -6,15 +6,60 @@ package com.company.project.entity;
  * @time: 2024/10/10
  */
 public class DailyDutyLog {
+    /**
+     * @description 当天日期
+     * @type Integer
+     * */
     private Integer day;
+    /**
+     * @description 员工名
+     * @type String
+     * */
     private String name;
+    /**
+     * @description 班次(白班,夜班)
+     * @type String
+     * */
+    private String workType;
+    /**
+     * @description 上岗时间
+     * @type Float
+     * */
     private Float onDutyTime;
+    /**
+     * @description 离岗时间
+     * @type Float
+     * */
     private Float onWorkTime;
+    /**
+     * @description 平日正常工作时间
+     * @type Float
+     * */
     private Float attendanceOnWeekdays;
+    /**
+     * @description 平日加班时间
+     * @type Float
+     * */
     private Float overTimeOnWeekdays;
+    /**
+     * @description 周末正常工作时间
+     * @type Float
+     * */
     private Float attendanceOnWeekends;
+    /**
+     * @description 周末加班时间
+     * @type Float
+     * */
     private Float overTimeOnWeekends;
+    /**
+     * @description 节日正常工作时间
+     * @type Float
+     * */
     private Float attendanceOnHoliday;
+    /**
+     * @description 节日加班时间
+     * @type Float
+     * */
     private Float overTimeOnHoliday;
 
 
@@ -96,5 +141,13 @@ public class DailyDutyLog {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getWorkType() {
+        return workType;
+    }
+
+    public void setWorkType(String workType) {
+        this.workType = workType;
     }
 }

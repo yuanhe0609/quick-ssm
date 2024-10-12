@@ -6,15 +6,55 @@ package com.company.project.entity;
  * @time: 2024/10/12
  */
 public class TotalDutyLog {
+    /**
+     * @description 当天月份
+     * @type Integer
+     * */
     private Integer month;
+    /**
+     * @description 当月平日正常工作时间
+     * @type Float
+     * */
     private Float totalWorkTimeOnWeekdays;
+    /**
+     * @description 当月平日加班时间
+     * @type Float
+     * */
     private Float totalOverTimeOnWeekdays;
+    /**
+     * @description 当月周末正常时间
+     * @type Float
+     * */
     private Float totalWorkTimeOnWeekends;
+    /**
+     * @description 当月周末加班时间
+     * @type Float
+     * */
     private Float totalOverTimeOnWeekends;
+    /**
+     * @description 当月节日正常时间
+     * @type Float
+     * */
     private Float totalWorkTimeOnHoliday;
+    /**
+     * @description 当月节日加班时间
+     * @type Float
+     * */
     private Float totalOverTimeOnHoliday;
+    /**
+     * @description 当月总正常工作时间
+     * @type Float
+     * */
     private Float totalWorkTime;
+    /**
+     * @description 当月总加班时间
+     * @type Float
+     * */
     private Float totalOverTime;
+    /**
+     * @description 当月总夜勤次数
+     * @type Integer
+     * */
     private Integer nightWorkTime;
 
     public Float getTotalWorkTimeOnWeekdays() {

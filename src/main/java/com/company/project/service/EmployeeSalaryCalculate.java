@@ -8,7 +8,7 @@ import java.sql.SQLException;
  * @author: ManolinCoder
  * @time: 2024/10/11
  */
-public interface IEmployeeSalary {
+public interface EmployeeSalaryCalculate {
 
     Integer BASIC_MONTHLY_SALARY = 2200;
 
