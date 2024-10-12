@@ -40,7 +40,6 @@ public class DutyLogController {
         ResultSet totalDutyLogRs = DbUtil.getTotalDutyLogResultSet("2024-"+nowMonth+"-%");
         List<DailyDutyLog> dailyDutyLogList = dutyLogService.calculateAttendanceList(totalDutyLogRs);
         Map<String, List<DailyDutyLog>> classMap = dailyDutyLogList.stream().collect(Collectors.groupingBy(DailyDutyLog::getName));
-
         List<Map<String,Map>> dailyWorkTime = dutyLogService.calculateDailyWorkTime(classMap);
         List<TotalDutyLog> totalWorkTime = dutyLogService.calculateTotalWorkTime(classMap);
         DbUtil.updateMonthDutyLog(totalWorkTime,"2024-"+nowMonth);
