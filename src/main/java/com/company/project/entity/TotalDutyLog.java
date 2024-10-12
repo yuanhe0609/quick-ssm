@@ -7,6 +7,16 @@ package com.company.project.entity;
  */
 public class TotalDutyLog {
     /**
+     * @description 员工姓名
+     * @type String
+     * */
+    private String name;
+    /**
+     * @description 身份证号
+     * @type String
+     * */
+    private String idNum;
+    /**
      * @description 当天月份
      * @type Integer
      * */
@@ -127,5 +137,29 @@ public class TotalDutyLog {
 
     public void setNightWorkTime(Integer nightWorkTime) {
         this.nightWorkTime = nightWorkTime;
+    }
+
+    public Integer getMonth() {
+        return month;
+    }
+
+    public void setMonth(Integer month) {
+        this.month = month;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getIdNum() {
+        return idNum;
+    }
+
+    public void setIdNum(String idNum) {
+        this.idNum = idNum;
     }
 }

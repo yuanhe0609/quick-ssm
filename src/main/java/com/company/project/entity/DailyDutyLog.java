@@ -17,6 +17,11 @@ public class DailyDutyLog {
      * */
     private String name;
     /**
+     * @description 身份证号
+     * @type String
+     * */
+    private String idNum;
+    /**
      * @description 班次(白班,夜班)
      * @type String
      * */
@@ -149,5 +154,13 @@ public class DailyDutyLog {
 
     public void setWorkType(String workType) {
         this.workType = workType;
+    }
+
+    public String getIdNum() {
+        return idNum;
+    }
+
+    public void setIdNum(String idNum) {
+        this.idNum = idNum;
     }
 }

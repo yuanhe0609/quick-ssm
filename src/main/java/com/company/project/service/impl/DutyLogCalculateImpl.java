@@ -279,9 +279,6 @@ public class DutyLogCalculateImpl extends BaseCalculate implements DutyLogCalcul
                 Calendar onJob = StringToCalendar(dutyLogResultSet.getString(SQL_ON_DUTY_TIME), SDF_WITH_TIME);
                 Calendar offJob = StringToCalendar(dutyLogResultSet.getString(SQL_OFF_DUTY_TIME), SDF_WITH_TIME);
                 int dayOfWeekInt = getWeekInt(onJob);
-                log.info("----------------------------------"+name+"----------------------------------");
-                log.info("原上班时间:" + onJob.getTime());
-                log.info("原下班时间:" + offJob.getTime());
                 int year = onJob.get(Calendar.YEAR);
                 int month = onJob.get(Calendar.MONTH) + 1;
                 int day = onJob.get(Calendar.DAY_OF_MONTH);
@@ -296,8 +293,6 @@ public class DutyLogCalculateImpl extends BaseCalculate implements DutyLogCalcul
                 if (Math.abs(getJetLegMin(offJobTime, offJob) + getJetLegHour(offJobTime, offJob) * 60) <= 10) {
                     offJob = offJobTime;
                 }
-                log.info("现上班时间:" + onJob.getTime());
-                log.info("现下班时间:" + offJob.getTime());
                 String holidayType = setHolidayType(year,month,day);
                 if (!holidayType.equals("")) {
                     if (holidayType.equals("1") || holidayType.equals("3")) {
@@ -316,10 +311,9 @@ public class DutyLogCalculateImpl extends BaseCalculate implements DutyLogCalcul
                         weekdayOverTime = getOverTime(onJob, offJob);
                     }
                 }
-                log.info("平日工时:"+weekdayWorkTime+"平日加班时间:"+weekdayOverTime+"周末工时:"+weekendWorkTime+"周末加班时间:"+weekendOverTime+"节日工时:"+festivalWorkTime +"节日加班"+ festivalOverTime);
-                log.info("----------------------------------"+name+"----------------------------------");
                 dailyDutyLog.setDay(day);
                 dailyDutyLog.setName(name);
+                dailyDutyLog.setIdNum(idNum);
                 dailyDutyLog.setWorkType(workType);
                 dailyDutyLog.setOnWorkTime(getWorkTime(onJob, offJob)+getOverTime(onJob, offJob));
                 dailyDutyLog.setAttendanceOnWeekdays(weekdayWorkTime);
@@ -407,9 +401,12 @@ public class DutyLogCalculateImpl extends BaseCalculate implements DutyLogCalcul
     public List<TotalDutyLog> calculateTotalWorkTime(Map<String,List<DailyDutyLog>> dutyLogResultSet){
         List<TotalDutyLog> result = new ArrayList<>();
         for(String key : dutyLogResultSet.keySet()){
-            System.out.println(key);
             TotalDutyLog totalDutyLog = new TotalDutyLog();
             List<DailyDutyLog> dailyDutyLogList = dutyLogResultSet.get(key);
+            String idnum ="";
+            if(!dailyDutyLogList.isEmpty()){
+                idnum = dailyDutyLogList.get(0).getIdNum();
+            }
             Float totalWorkTimeOnWeekdays = Float.valueOf(DF.format(getTotalWorkTime(getWorkTimeAndOverTimeOnWeekdaysMap(dailyDutyLogList).get(0))));
             Float totalOverTimeOnWeekdays = Float.valueOf(DF.format(getTotalWorkTime(getWorkTimeAndOverTimeOnWeekdaysMap(dailyDutyLogList).get(1))));
             Float totalWorkTimeOnWeekends =  Float.valueOf(DF.format(getTotalWorkTime(getWorkTimeAndOverTimeOnWeekendsMap(dailyDutyLogList).get(0))));
@@ -419,6 +416,8 @@ public class DutyLogCalculateImpl extends BaseCalculate implements DutyLogCalcul
             Float totalWorkTime = totalWorkTimeOnWeekdays+totalWorkTimeOnWeekends+totalWorkTimeOnHoliday;
             Float totalOverTime = totalOverTimeOnWeekdays+totalOverTimeOnWeekends+totalOverTimeOnHoliday;
             Integer nightWorkTime = calculateNightWorkTimes(dailyDutyLogList);
+            totalDutyLog.setName(key);
+            totalDutyLog.setIdNum(idnum);
             totalDutyLog.setTotalWorkTimeOnWeekdays(totalWorkTimeOnWeekdays);
             totalDutyLog.setTotalOverTimeOnWeekdays(totalOverTimeOnWeekdays);
             totalDutyLog.setTotalWorkTimeOnWeekends(totalWorkTimeOnWeekends);
@@ -428,7 +427,6 @@ public class DutyLogCalculateImpl extends BaseCalculate implements DutyLogCalcul
             totalDutyLog.setTotalWorkTime(totalWorkTime);
             totalDutyLog.setTotalOverTime(totalOverTime);
             totalDutyLog.setNightWorkTime(nightWorkTime);
-            System.out.println(JSON.toJSONString(totalDutyLog));
             result.add(totalDutyLog);
         }
         return result;

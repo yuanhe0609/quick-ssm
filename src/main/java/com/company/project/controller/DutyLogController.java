@@ -28,15 +28,23 @@ import java.util.stream.Collectors;
 @Api(value = "DutyLogController")
 @Slf4j
 public class DutyLogController {
-    @RequestMapping("/calculate_log/{name}")
-    public String calculateLog(@PathVariable String name) throws SQLException, ParseException {
-
+    @RequestMapping("/calculate_log/{month}")
+    public String calculateLog(@PathVariable Integer month) throws SQLException, ParseException {
+        String nowMonth = "";
+        if(month<10){
+            nowMonth = "0"+month;
+        }else{
+            nowMonth = ""+month;
+        }
         DutyLogCalculateFormula dutyLogService = new DutyLogCalculateImpl();
-        ResultSet totalDutyLogRs = DbUtil.getTotalDutyLogResultSet("2024-09-%");
+        ResultSet totalDutyLogRs = DbUtil.getTotalDutyLogResultSet("2024-"+nowMonth+"-%");
         List<DailyDutyLog> dailyDutyLogList = dutyLogService.calculateAttendanceList(totalDutyLogRs);
         Map<String, List<DailyDutyLog>> classMap = dailyDutyLogList.stream().collect(Collectors.groupingBy(DailyDutyLog::getName));
-//        List<Map<String,Map>> list = dutyLogService.calculateDailyWorkTime(classMap);
-        List<TotalDutyLog> list = dutyLogService.calculateTotalWorkTime(classMap);
-        return JSON.toJSONString(list);
+
+        List<Map<String,Map>> dailyWorkTime = dutyLogService.calculateDailyWorkTime(classMap);
+        List<TotalDutyLog> totalWorkTime = dutyLogService.calculateTotalWorkTime(classMap);
+        DbUtil.updateMonthDutyLog(totalWorkTime,"2024-"+nowMonth);
+        System.out.println(JSON.toJSONString(totalWorkTime));
+        return JSON.toJSONString("finish");
     }
 }

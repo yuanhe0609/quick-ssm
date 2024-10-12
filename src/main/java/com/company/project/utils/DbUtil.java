@@ -1,5 +1,7 @@
 package com.company.project.utils;
 
+import com.company.project.entity.TotalDutyLog;
+
 import java.sql.*;
 import java.util.Iterator;
 import java.util.List;
@@ -91,6 +93,28 @@ public class DbUtil {
                     psUpdate.setObject(5,calculateDailyTotalWorkTime(dailyWeekdaysOverTimeMap,dailyWeekendsOverTimeMap,dailyHolidayOverTimeMap,Integer.parseInt(i.toString())));
                     psUpdate.executeUpdate();
                 }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public static void updateMonthDutyLog( List<TotalDutyLog> totalDutyLogList,String month){
+        Connection conn = getConnection();
+        String updateSql = "insert into uf_monthly_log (xm,sfzh,yf,zcqxss,zcts,yq,prcqxs,prjbxs,zmzcxs,zmjbxs) values (?,?,?,?,?,?,?,?,?,?)";
+        try {
+            for(TotalDutyLog totalDutyLog : totalDutyLogList){
+                PreparedStatement psUpdate = conn.prepareStatement(updateSql);
+                psUpdate.setObject(1,totalDutyLog.getName());
+                psUpdate.setObject(2,totalDutyLog.getIdNum());
+                psUpdate.setObject(3,month);
+                psUpdate.setObject(4,totalDutyLog.getTotalOverTime()+totalDutyLog.getTotalWorkTime());
+                psUpdate.setObject(5,(totalDutyLog.getTotalOverTime()+totalDutyLog.getTotalWorkTime())/8);
+                psUpdate.setObject(6,totalDutyLog.getNightWorkTime());
+                psUpdate.setObject(7,totalDutyLog.getTotalWorkTimeOnWeekdays());
+                psUpdate.setObject(8,totalDutyLog.getTotalOverTimeOnWeekdays());
+                psUpdate.setObject(9,totalDutyLog.getTotalWorkTimeOnWeekends());
+                psUpdate.setObject(10,totalDutyLog.getTotalOverTimeOnHoliday());
+                psUpdate.executeUpdate();
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
