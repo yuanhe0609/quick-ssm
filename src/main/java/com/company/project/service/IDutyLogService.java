@@ -1,5 +1,7 @@
 package com.company.project.service;
-import com.company.project.entity.DutyLog;
+import com.company.project.entity.DailyDutyLog;
+import com.company.project.entity.TotalDutyLog;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
@@ -102,12 +104,13 @@ public interface IDutyLogService {
      * @param dutyLogResultSet ResultSet
      * @return result List<DutyLog>
      * */
-    public List<DutyLog> calculateAttendanceList(ResultSet dutyLogResultSet) throws SQLException;
+    public List<DailyDutyLog> calculateAttendanceList(ResultSet dutyLogResultSet) throws SQLException;
     /**
      * @description 计算每月出勤,加班时间
      * @param dutyLogResultSet ResultSet (因需要反复利用ResultSet,需在prepareStatement设置ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY)
      * @return result List<DutyLog>
      */
     public Map<String,Map> calculateDailyWorkTime(ResultSet dutyLogResultSet) throws SQLException;
-    public DutyLog calculateTotalWorkTime(ResultSet dutyLogResultSet) throws SQLException;
+    public Map<String,Map> calculateDailyWorkTime(List<DailyDutyLog> dutyLogList) throws SQLException;
+    public TotalDutyLog calculateTotalWorkTime(ResultSet dutyLogResultSet) throws SQLException;
 }
