@@ -63,8 +63,8 @@ public class EmployeeSalaryCalculateImpl extends BaseCalculate implements Employ
     public List<EmployeeSalaryEntity> calculateEmployeeSalary(ResultSet totalDutyLogResultSet) throws SQLException {
         List<EmployeeSalaryEntity> result = new ArrayList<>();
         while(totalDutyLogResultSet.next()){
-            Integer year = Integer.valueOf(totalDutyLogResultSet.getString("yf").split("-")[0]);
-            Integer month = Integer.valueOf(totalDutyLogResultSet.getString("yf").split("-")[1]);
+            Integer year = Integer.valueOf(totalDutyLogResultSet.getString(SQL_MONTH).split("-")[0]);
+            Integer month = Integer.valueOf(totalDutyLogResultSet.getString(SQL_MONTH).split("-")[1]);
             Float basicTotalWorkTime = getBasicAttendanceHour(getBasicAttendanceCalendar(year,month));
             EmployeeSalaryEntity employeeSalary = new EmployeeSalaryEntity();
             Float totalWorkTimeOnWeekdays = totalDutyLogResultSet.getFloat(SQL_TOTAL_WORK_TIME_ON_WEEKDAYS);

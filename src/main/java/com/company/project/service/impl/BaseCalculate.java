@@ -1,6 +1,6 @@
 package com.company.project.service.impl;
 
-import com.company.project.service.DutyLogCalculateFormula;
+import com.company.project.service.DutyLogCalculate;
 import com.company.project.utils.DbUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -254,9 +254,7 @@ public class BaseCalculate {
     }
     /**
      * @description 获取节日类型
-     * @param year int 年
-     * @param month int 月
-     * @param day int 日
+     * @param calendar Calendar
      * @return holidayType String
      * */
     protected String getHolidayType(Calendar calendar){
@@ -265,7 +263,7 @@ public class BaseCalculate {
             Connection conn = DbUtil.getConnection();
             String selectHolidaySetSql = "select * from KQ_Holiday_Set where groupid = 501 and holidaydate = ?";
             PreparedStatement psSelectHolidaySet = conn.prepareStatement(selectHolidaySetSql);
-            psSelectHolidaySet.setString(1, DutyLogCalculateFormula.SDF_NO_TIME.format(calendar.getTime()));
+            psSelectHolidaySet.setString(1, DutyLogCalculate.SDF_NO_TIME.format(calendar.getTime()));
             ResultSet holidaySetRs = psSelectHolidaySet.executeQuery();
             if(holidaySetRs.next()){
                 holidayType = holidaySetRs.getString(SQL_HOLIDAY_TYPE);

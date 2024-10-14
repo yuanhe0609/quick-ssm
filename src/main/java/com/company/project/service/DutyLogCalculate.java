@@ -13,7 +13,7 @@ import java.util.Map;
  * @author: ManolinCoder
  * @time: 2024/10/9
  */
-public interface DutyLogCalculateFormula {
+public interface DutyLogCalculate {
     /**
      * @description 定义日期格式
      * @type SimpleDateFormat

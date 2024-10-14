@@ -2,7 +2,7 @@ package com.company.project.service.impl;
 
 import com.company.project.entity.DailyDutyLogEntity;
 import com.company.project.entity.TotalDutyLogEntity;
-import com.company.project.service.DutyLogCalculateFormula;
+import com.company.project.service.DutyLogCalculate;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import java.sql.ResultSet;
@@ -15,7 +15,7 @@ import java.util.*;
  */
 @Service
 @Slf4j
-public class DutyLogCalculateImpl extends BaseCalculate implements DutyLogCalculateFormula {
+public class DutyLogCalculateImpl extends BaseCalculate implements DutyLogCalculate {
     /**
      * @description 计算在岗时间
      * @param onJob 上岗时间
