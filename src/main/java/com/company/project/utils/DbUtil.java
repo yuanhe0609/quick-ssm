@@ -8,12 +8,10 @@ import java.util.Map;
 import java.util.Set;
 
 public class DbUtil {
-
     public static final String URL = "jdbc:mysql://localhost:3306/salary";
     public static final String USER = "root";
     public static final String PASSWORD = "123456";
     private static Connection conn = null;
-
     static{
         try {
             //1.加载驱动程序
@@ -26,7 +24,6 @@ public class DbUtil {
             e.printStackTrace();
         }
     }
-
     public static Connection getConnection(){
         return conn;
     }

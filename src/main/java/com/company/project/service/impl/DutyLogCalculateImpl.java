@@ -3,8 +3,12 @@ package com.company.project.service.impl;
 import com.company.project.entity.DailyDutyLogEntity;
 import com.company.project.entity.TotalDutyLogEntity;
 import com.company.project.service.DutyLogCalculate;
+import com.company.project.utils.RedisUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.jdbc.SQL;
 import org.springframework.stereotype.Service;
+import redis.clients.jedis.Jedis;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
@@ -306,6 +310,7 @@ public class DutyLogCalculateImpl extends BaseCalculate implements DutyLogCalcul
      */
     @Override
     public Map<String,Map> calculateDailyWorkTime(ResultSet dutyLogResultSet) throws SQLException {
+        Jedis jedis = RedisUtil.getJedis();
         Map<String,Map> result = new HashMap<>();
         result.put("dailyWeekdaysWorkTimeMap",getWorkTimeAndOverTimeMap(dutyLogResultSet,SQL_WORK_TIME_ON_WEEKDAYS,SQL_OVER_TIME_ON_WEEKDAYS).get(0));
         result.put("dailyWeekdaysOverTimeMap",getWorkTimeAndOverTimeMap(dutyLogResultSet,SQL_WORK_TIME_ON_WEEKDAYS,SQL_OVER_TIME_ON_WEEKDAYS).get(1));
