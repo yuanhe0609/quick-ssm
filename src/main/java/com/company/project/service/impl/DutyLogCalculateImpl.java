@@ -1,13 +1,10 @@
 package com.company.project.service.impl;
-import com.alibaba.fastjson2.JSON;
-import com.company.project.entity.DailyDutyLog;
-import com.company.project.entity.TotalDutyLog;
+
+import com.company.project.entity.DailyDutyLogEntity;
+import com.company.project.entity.TotalDutyLogEntity;
 import com.company.project.service.DutyLogCalculateFormula;
-import com.company.project.utils.DbUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
@@ -89,20 +86,20 @@ public class DutyLogCalculateImpl extends BaseCalculate implements DutyLogCalcul
     }
     /**
      * @description 计算每日平日出勤时间和加班时间
-     * @param dutyLogResultSet List<DailyDutyLog>
+     * @param dailyDutyLogEntityList List<DailyDutyLog>
      * @return result List<Map<Integer,Float>>
      * */
-    private List<Map<Integer,Float>> getWorkTimeAndOverTimeOnWeekdaysMap(List<DailyDutyLog> dutyLogResultSet){
+    private List<Map<Integer,Float>> getWorkTimeAndOverTimeOnWeekdaysMap(List<DailyDutyLogEntity> dailyDutyLogEntityList){
         List<Map<Integer,Float>> result = new ArrayList<>();
         Map<Integer,Float> dailyWorkTime = new HashMap<>();
         Map<Integer,Float> dailyOverTime = new HashMap<>();
-        for(DailyDutyLog dailyDutyLog : dutyLogResultSet){
-            Integer nowaday = dailyDutyLog.getDay();
+        for(DailyDutyLogEntity dailyDutyLogEntity : dailyDutyLogEntityList){
+            Integer nowaday = dailyDutyLogEntity.getDay();
             if(!dailyWorkTime.containsKey(nowaday) && !dailyOverTime.containsKey(nowaday)){
-                dailyWorkTime.put(nowaday,dailyDutyLog.getAttendanceOnWeekdays());
-                dailyOverTime.put(nowaday,dailyDutyLog.getOverTimeOnWeekdays());
+                dailyWorkTime.put(nowaday, dailyDutyLogEntity.getAttendanceOnWeekdays());
+                dailyOverTime.put(nowaday, dailyDutyLogEntity.getOverTimeOnWeekdays());
             }else{
-                Float workTime = dailyWorkTime.get(nowaday) + dailyDutyLog.getAttendanceOnWeekdays();
+                Float workTime = dailyWorkTime.get(nowaday) + dailyDutyLogEntity.getAttendanceOnWeekdays();
 
                 if(workTime >= 8){
                     dailyWorkTime.replace(nowaday,8f);
@@ -124,21 +121,20 @@ public class DutyLogCalculateImpl extends BaseCalculate implements DutyLogCalcul
     }
     /**
      * @description 计算每日周末出勤时间和加班时间
-     * @param dutyLogResultSet List<DailyDutyLog>
+     * @param dailyDutyLogEntityList List<DailyDutyLog>
      * @return result List<Map<Integer,Float>>
      * */
-    private List<Map<Integer,Float>> getWorkTimeAndOverTimeOnWeekendsMap(List<DailyDutyLog> dutyLogResultSet){
+    private List<Map<Integer,Float>> getWorkTimeAndOverTimeOnWeekendsMap(List<DailyDutyLogEntity> dailyDutyLogEntityList){
         List<Map<Integer,Float>> result = new ArrayList<>();
         Map<Integer,Float> dailyWorkTime = new HashMap<>();
         Map<Integer,Float> dailyOverTime = new HashMap<>();
-        for(DailyDutyLog dailyDutyLog : dutyLogResultSet){
-            Integer nowaday = dailyDutyLog.getDay();
+        for(DailyDutyLogEntity dailyDutyLogEntity : dailyDutyLogEntityList){
+            Integer nowaday = dailyDutyLogEntity.getDay();
             if(!dailyWorkTime.containsKey(nowaday) && !dailyOverTime.containsKey(nowaday)){
-                dailyWorkTime.put(nowaday,dailyDutyLog.getAttendanceOnWeekends());
-                dailyOverTime.put(nowaday,dailyDutyLog.getOverTimeOnWeekends());
+                dailyWorkTime.put(nowaday, dailyDutyLogEntity.getAttendanceOnWeekends());
+                dailyOverTime.put(nowaday, dailyDutyLogEntity.getOverTimeOnWeekends());
             }else{
-                Float workTime = dailyWorkTime.get(nowaday) + dailyDutyLog.getAttendanceOnWeekends();
-
+                Float workTime = dailyWorkTime.get(nowaday) + dailyDutyLogEntity.getAttendanceOnWeekends();
                 if(workTime >= 8){
                     dailyWorkTime.replace(nowaday,8f);
 
@@ -159,21 +155,20 @@ public class DutyLogCalculateImpl extends BaseCalculate implements DutyLogCalcul
     }
     /**
      * @description 计算每日节日出勤时间和加班时间
-     * @param dutyLogResultSet List<DailyDutyLog>
+     * @param dailyDutyLogEntityList List<DailyDutyLog>
      * @return result List<Map<Integer,Float>>
      * */
-    private List<Map<Integer,Float>> getWorkTimeAndOverTimeOnHolidayMap(List<DailyDutyLog> dutyLogResultSet){
+    private List<Map<Integer,Float>> getWorkTimeAndOverTimeOnHolidayMap(List<DailyDutyLogEntity> dailyDutyLogEntityList){
         List<Map<Integer,Float>> result = new ArrayList<>();
         Map<Integer,Float> dailyWorkTime = new HashMap<>();
         Map<Integer,Float> dailyOverTime = new HashMap<>();
-        for(DailyDutyLog dailyDutyLog : dutyLogResultSet){
-            Integer nowaday = dailyDutyLog.getDay();
+        for(DailyDutyLogEntity dailyDutyLogEntity : dailyDutyLogEntityList){
+            Integer nowaday = dailyDutyLogEntity.getDay();
             if(!dailyWorkTime.containsKey(nowaday) && !dailyOverTime.containsKey(nowaday)){
-                dailyWorkTime.put(nowaday,dailyDutyLog.getAttendanceOnHoliday());
-                dailyOverTime.put(nowaday,dailyDutyLog.getOverTimeOnHoliday());
+                dailyWorkTime.put(nowaday, dailyDutyLogEntity.getAttendanceOnHoliday());
+                dailyOverTime.put(nowaday, dailyDutyLogEntity.getOverTimeOnHoliday());
             }else{
-                Float workTime = dailyWorkTime.get(nowaday) + dailyDutyLog.getAttendanceOnHoliday();
-
+                Float workTime = dailyWorkTime.get(nowaday) + dailyDutyLogEntity.getAttendanceOnHoliday();
                 if(workTime >= 8){
                     dailyWorkTime.replace(nowaday,8f);
 
@@ -222,13 +217,13 @@ public class DutyLogCalculateImpl extends BaseCalculate implements DutyLogCalcul
     }
     /**
      * @description 计算夜勤次数
-     * @param dutyLogResultSet List<DailyDutyLog>
+     * @param dutyLogList List<DailyDutyLog>
      * @return nightWorkTimes Integer
      * */
-    private Integer calculateNightWorkTimes(List<DailyDutyLog> dutyLogResultSet){
+    private Integer calculateNightWorkTimes(List<DailyDutyLogEntity> dutyLogList){
         Integer nightWorkTimes = 0;
-        for(DailyDutyLog dailyDutyLog : dutyLogResultSet){
-            if(dailyDutyLog.getWorkType().equals("夜班")){
+        for(DailyDutyLogEntity dailyDutyLogEntity : dutyLogList){
+            if(dailyDutyLogEntity.getWorkType().equals("夜班")){
                 nightWorkTimes++;
             }
         }
@@ -240,10 +235,10 @@ public class DutyLogCalculateImpl extends BaseCalculate implements DutyLogCalcul
      * @return result List<DailyDutyLog>
      * */
     @Override
-    public List<DailyDutyLog> calculateAttendanceList(ResultSet dutyLogResultSet) throws SQLException {
-        List<DailyDutyLog> result = new ArrayList<>();
+    public List<DailyDutyLogEntity> calculateAttendanceList(ResultSet dutyLogResultSet) throws SQLException {
+        List<DailyDutyLogEntity> result = new ArrayList<>();
         while (dutyLogResultSet.next()) {
-            DailyDutyLog dailyDutyLog = new DailyDutyLog();
+            DailyDutyLogEntity dailyDutyLogEntity = new DailyDutyLogEntity();
             String name = dutyLogResultSet.getString(SQL_NAME);
             String idNum = dutyLogResultSet.getString(SQL_IDNUM);
             String workType = dutyLogResultSet.getString(SQL_WORK_TYPE);
@@ -288,18 +283,18 @@ public class DutyLogCalculateImpl extends BaseCalculate implements DutyLogCalcul
                         weekdayOverTime = getOverTime(onJob, offJob);
                     }
                 }
-                dailyDutyLog.setDay(day);
-                dailyDutyLog.setName(name);
-                dailyDutyLog.setIdNum(idNum);
-                dailyDutyLog.setWorkType(workType);
-                dailyDutyLog.setOnWorkTime(getWorkTime(onJob, offJob)+getOverTime(onJob, offJob));
-                dailyDutyLog.setAttendanceOnWeekdays(weekdayWorkTime);
-                dailyDutyLog.setOverTimeOnWeekdays(weekdayOverTime);
-                dailyDutyLog.setAttendanceOnWeekends(weekendWorkTime);
-                dailyDutyLog.setOverTimeOnWeekends(weekendOverTime);
-                dailyDutyLog.setAttendanceOnHoliday(festivalWorkTime);
-                dailyDutyLog.setOverTimeOnHoliday(festivalOverTime);
-                result.add(dailyDutyLog);
+                dailyDutyLogEntity.setDay(day);
+                dailyDutyLogEntity.setName(name);
+                dailyDutyLogEntity.setIdNum(idNum);
+                dailyDutyLogEntity.setWorkType(workType);
+                dailyDutyLogEntity.setOnWorkTime(getWorkTime(onJob, offJob)+getOverTime(onJob, offJob));
+                dailyDutyLogEntity.setAttendanceOnWeekdays(weekdayWorkTime);
+                dailyDutyLogEntity.setOverTimeOnWeekdays(weekdayOverTime);
+                dailyDutyLogEntity.setAttendanceOnWeekends(weekendWorkTime);
+                dailyDutyLogEntity.setOverTimeOnWeekends(weekendOverTime);
+                dailyDutyLogEntity.setAttendanceOnHoliday(festivalWorkTime);
+                dailyDutyLogEntity.setOverTimeOnHoliday(festivalOverTime);
+                result.add(dailyDutyLogEntity);
             }
         }
         return result;
@@ -321,22 +316,22 @@ public class DutyLogCalculateImpl extends BaseCalculate implements DutyLogCalcul
         return result;
     }
     /**
-     * @param dutyLogResultSet Map<String,List<DailyDutyLog>>
+     * @param dutyLogMap Map<String,List<DailyDutyLog>>
      * @return result List<Map<String,Map>>
      * @description 计算所有人每日出勤,加班时间
      */
     @Override
-    public List<Map<String,Map>> calculateDailyWorkTime(Map<String,List<DailyDutyLog>> dutyLogResultSet){
+    public List<Map<String,Map>> calculateDailyWorkTime(Map<String,List<DailyDutyLogEntity>> dutyLogMap){
         List<Map<String,Map>> result = new ArrayList<>();
-        for(String key : dutyLogResultSet.keySet()){
-            List<DailyDutyLog> dailyDutyLogList = dutyLogResultSet.get(key);
+        for(String key : dutyLogMap.keySet()){
+            List<DailyDutyLogEntity> dailyDutyLogEntityList = dutyLogMap.get(key);
             Map<String,Map> dailyDutiLogMap = new HashMap<>();
-            dailyDutiLogMap.put("dailyWeekdaysWorkTimeMap",getWorkTimeAndOverTimeOnWeekdaysMap(dailyDutyLogList).get(0));
-            dailyDutiLogMap.put("dailyWeekdaysOverTimeMap",getWorkTimeAndOverTimeOnWeekdaysMap(dailyDutyLogList).get(1));
-            dailyDutiLogMap.put("dailyWeekendsWorkTimeMap",getWorkTimeAndOverTimeOnWeekendsMap(dailyDutyLogList).get(0));
-            dailyDutiLogMap.put("dailyWeekendsOverTimeMap",getWorkTimeAndOverTimeOnWeekendsMap(dailyDutyLogList).get(1));
-            dailyDutiLogMap.put("dailyHolidayWorkTimeMap",getWorkTimeAndOverTimeOnHolidayMap(dailyDutyLogList).get(0));
-            dailyDutiLogMap.put("dailyHolidayOverTimeMap",getWorkTimeAndOverTimeOnHolidayMap(dailyDutyLogList).get(1));
+            dailyDutiLogMap.put("dailyWeekdaysWorkTimeMap",getWorkTimeAndOverTimeOnWeekdaysMap(dailyDutyLogEntityList).get(0));
+            dailyDutiLogMap.put("dailyWeekdaysOverTimeMap",getWorkTimeAndOverTimeOnWeekdaysMap(dailyDutyLogEntityList).get(1));
+            dailyDutiLogMap.put("dailyWeekendsWorkTimeMap",getWorkTimeAndOverTimeOnWeekendsMap(dailyDutyLogEntityList).get(0));
+            dailyDutiLogMap.put("dailyWeekendsOverTimeMap",getWorkTimeAndOverTimeOnWeekendsMap(dailyDutyLogEntityList).get(1));
+            dailyDutiLogMap.put("dailyHolidayWorkTimeMap",getWorkTimeAndOverTimeOnHolidayMap(dailyDutyLogEntityList).get(0));
+            dailyDutiLogMap.put("dailyHolidayOverTimeMap",getWorkTimeAndOverTimeOnHolidayMap(dailyDutyLogEntityList).get(1));
             result.add(dailyDutiLogMap);
         }
         return result;
@@ -347,8 +342,8 @@ public class DutyLogCalculateImpl extends BaseCalculate implements DutyLogCalcul
      * @description 计算个人每月总出勤,加班,夜勤时间
      */
     @Override
-    public TotalDutyLog calculateTotalWorkTime(ResultSet dutyLogResultSet) throws SQLException {
-        TotalDutyLog totalDutyLog = new TotalDutyLog();
+    public TotalDutyLogEntity calculateTotalWorkTime(ResultSet dutyLogResultSet) throws SQLException {
+        TotalDutyLogEntity totalDutyLogEntity = new TotalDutyLogEntity();
         Float totalWorkTimeOnWeekdays = Float.valueOf(DF.format(getTotalWorkTime(getWorkTimeAndOverTimeMap(dutyLogResultSet,SQL_WORK_TIME_ON_WEEKDAYS,SQL_OVER_TIME_ON_WEEKDAYS).get(0))));
         Float totalOverTimeOnWeekdays = Float.valueOf(DF.format(getTotalWorkTime(getWorkTimeAndOverTimeMap(dutyLogResultSet,SQL_WORK_TIME_ON_WEEKDAYS,SQL_OVER_TIME_ON_WEEKDAYS).get(1))));
         Float totalWorkTimeOnWeekends =  Float.valueOf(DF.format(getTotalWorkTime(getWorkTimeAndOverTimeMap(dutyLogResultSet,SQL_WORK_TIME_ON_WEEKENDS,SQL_OVER_TIME_ON_WEEKENDS).get(0))));
@@ -358,58 +353,54 @@ public class DutyLogCalculateImpl extends BaseCalculate implements DutyLogCalcul
         Float totalWorkTime = totalWorkTimeOnWeekdays+totalWorkTimeOnWeekends+totalWorkTimeOnHoliday;
         Float totalOverTime = totalOverTimeOnWeekdays+totalOverTimeOnWeekends+totalOverTimeOnHoliday;
         Integer nightWorkTime = calculateNightWorkTimes(dutyLogResultSet);
-        totalDutyLog.setTotalWorkTimeOnWeekdays(totalWorkTimeOnWeekdays);
-        totalDutyLog.setTotalOverTimeOnWeekdays(totalOverTimeOnWeekdays);
-        totalDutyLog.setTotalWorkTimeOnWeekends(totalWorkTimeOnWeekends);
-        totalDutyLog.setTotalOverTimeOnWeekends(totalOverTimeOnWeekends);
-        totalDutyLog.setTotalWorkTimeOnHoliday(totalWorkTimeOnHoliday);
-        totalDutyLog.setTotalOverTimeOnHoliday(totalOverTimeOnHoliday);
-        totalDutyLog.setTotalWorkTime(totalWorkTime);
-        totalDutyLog.setTotalOverTime(totalOverTime);
-        totalDutyLog.setNightWorkTime(nightWorkTime);
-        return totalDutyLog;
+        totalDutyLogEntity.setTotalWorkTimeOnWeekdays(totalWorkTimeOnWeekdays);
+        totalDutyLogEntity.setTotalOverTimeOnWeekdays(totalOverTimeOnWeekdays);
+        totalDutyLogEntity.setTotalWorkTimeOnWeekends(totalWorkTimeOnWeekends);
+        totalDutyLogEntity.setTotalOverTimeOnWeekends(totalOverTimeOnWeekends);
+        totalDutyLogEntity.setTotalWorkTimeOnHoliday(totalWorkTimeOnHoliday);
+        totalDutyLogEntity.setTotalOverTimeOnHoliday(totalOverTimeOnHoliday);
+        totalDutyLogEntity.setTotalWorkTime(totalWorkTime);
+        totalDutyLogEntity.setTotalOverTime(totalOverTime);
+        totalDutyLogEntity.setNightWorkTime(nightWorkTime);
+        return totalDutyLogEntity;
     }
     /**
-     * @param dutyLogResultSet Map<String,List<DailyDutyLog>>
+     * @param dutyLogMap Map<String,List<DailyDutyLog>>
      * @return result List<TotalDutyLog>
      * @description 计算所有人每月总出勤,加班,夜勤时间
      */
     @Override
-    public List<TotalDutyLog> calculateTotalWorkTime(Map<String,List<DailyDutyLog>> dutyLogResultSet){
-        List<TotalDutyLog> result = new ArrayList<>();
-        for(String key : dutyLogResultSet.keySet()){
-            TotalDutyLog totalDutyLog = new TotalDutyLog();
-            List<DailyDutyLog> dailyDutyLogList = dutyLogResultSet.get(key);
+    public List<TotalDutyLogEntity> calculateTotalWorkTime(Map<String,List<DailyDutyLogEntity>> dutyLogMap){
+        List<TotalDutyLogEntity> result = new ArrayList<>();
+        for(String key : dutyLogMap.keySet()){
+            TotalDutyLogEntity totalDutyLogEntity = new TotalDutyLogEntity();
+            List<DailyDutyLogEntity> dailyDutyLogEntityList = dutyLogMap.get(key);
             String idnum ="";
-            if(!dailyDutyLogList.isEmpty()){
-                idnum = dailyDutyLogList.get(0).getIdNum();
+            if(!dailyDutyLogEntityList.isEmpty()){
+                idnum = dailyDutyLogEntityList.get(0).getIdNum();
             }
-            Float totalWorkTimeOnWeekdays = Float.valueOf(DF.format(getTotalWorkTime(getWorkTimeAndOverTimeOnWeekdaysMap(dailyDutyLogList).get(0))));
-            Float totalOverTimeOnWeekdays = Float.valueOf(DF.format(getTotalWorkTime(getWorkTimeAndOverTimeOnWeekdaysMap(dailyDutyLogList).get(1))));
-            Float totalWorkTimeOnWeekends =  Float.valueOf(DF.format(getTotalWorkTime(getWorkTimeAndOverTimeOnWeekendsMap(dailyDutyLogList).get(0))));
-            Float totalOverTimeOnWeekends =  Float.valueOf(DF.format(getTotalWorkTime(getWorkTimeAndOverTimeOnWeekendsMap(dailyDutyLogList).get(1))));
-            Float totalWorkTimeOnHoliday =  Float.valueOf(DF.format(getTotalWorkTime(getWorkTimeAndOverTimeOnHolidayMap(dailyDutyLogList).get(0))));
-            Float totalOverTimeOnHoliday =  Float.valueOf(DF.format(getTotalWorkTime(getWorkTimeAndOverTimeOnHolidayMap(dailyDutyLogList).get(1))));
+            Float totalWorkTimeOnWeekdays = Float.valueOf(DF.format(getTotalWorkTime(getWorkTimeAndOverTimeOnWeekdaysMap(dailyDutyLogEntityList).get(0))));
+            Float totalOverTimeOnWeekdays = Float.valueOf(DF.format(getTotalWorkTime(getWorkTimeAndOverTimeOnWeekdaysMap(dailyDutyLogEntityList).get(1))));
+            Float totalWorkTimeOnWeekends =  Float.valueOf(DF.format(getTotalWorkTime(getWorkTimeAndOverTimeOnWeekendsMap(dailyDutyLogEntityList).get(0))));
+            Float totalOverTimeOnWeekends =  Float.valueOf(DF.format(getTotalWorkTime(getWorkTimeAndOverTimeOnWeekendsMap(dailyDutyLogEntityList).get(1))));
+            Float totalWorkTimeOnHoliday =  Float.valueOf(DF.format(getTotalWorkTime(getWorkTimeAndOverTimeOnHolidayMap(dailyDutyLogEntityList).get(0))));
+            Float totalOverTimeOnHoliday =  Float.valueOf(DF.format(getTotalWorkTime(getWorkTimeAndOverTimeOnHolidayMap(dailyDutyLogEntityList).get(1))));
             Float totalWorkTime = totalWorkTimeOnWeekdays+totalWorkTimeOnWeekends+totalWorkTimeOnHoliday;
             Float totalOverTime = totalOverTimeOnWeekdays+totalOverTimeOnWeekends+totalOverTimeOnHoliday;
-            Integer nightWorkTime = calculateNightWorkTimes(dailyDutyLogList);
-            totalDutyLog.setName(key);
-            totalDutyLog.setIdNum(idnum);
-            totalDutyLog.setTotalWorkTimeOnWeekdays(totalWorkTimeOnWeekdays);
-            totalDutyLog.setTotalOverTimeOnWeekdays(totalOverTimeOnWeekdays);
-            totalDutyLog.setTotalWorkTimeOnWeekends(totalWorkTimeOnWeekends);
-            totalDutyLog.setTotalOverTimeOnWeekends(totalOverTimeOnWeekends);
-            totalDutyLog.setTotalWorkTimeOnHoliday(totalWorkTimeOnHoliday);
-            totalDutyLog.setTotalOverTimeOnHoliday(totalOverTimeOnHoliday);
-            totalDutyLog.setTotalWorkTime(totalWorkTime);
-            totalDutyLog.setTotalOverTime(totalOverTime);
-            totalDutyLog.setNightWorkTime(nightWorkTime);
-            result.add(totalDutyLog);
+            Integer nightWorkTime = calculateNightWorkTimes(dailyDutyLogEntityList);
+            totalDutyLogEntity.setName(key);
+            totalDutyLogEntity.setIdNum(idnum);
+            totalDutyLogEntity.setTotalWorkTimeOnWeekdays(totalWorkTimeOnWeekdays);
+            totalDutyLogEntity.setTotalOverTimeOnWeekdays(totalOverTimeOnWeekdays);
+            totalDutyLogEntity.setTotalWorkTimeOnWeekends(totalWorkTimeOnWeekends);
+            totalDutyLogEntity.setTotalOverTimeOnWeekends(totalOverTimeOnWeekends);
+            totalDutyLogEntity.setTotalWorkTimeOnHoliday(totalWorkTimeOnHoliday);
+            totalDutyLogEntity.setTotalOverTimeOnHoliday(totalOverTimeOnHoliday);
+            totalDutyLogEntity.setTotalWorkTime(totalWorkTime);
+            totalDutyLogEntity.setTotalOverTime(totalOverTime);
+            totalDutyLogEntity.setNightWorkTime(nightWorkTime);
+            result.add(totalDutyLogEntity);
         }
         return result;
-    }
-    public void getTime(int year,int month){
-        System.out.println(JSON.toJSONString(getBasicAttendanceCalendar(year,month)));
-        System.out.println(getBasicAttendanceHour(getBasicAttendanceCalendar(year,month)));
     }
 }

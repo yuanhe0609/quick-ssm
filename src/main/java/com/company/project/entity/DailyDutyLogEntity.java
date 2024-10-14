@@ -5,7 +5,7 @@ package com.company.project.entity;
  * @author: ManolinCoder
  * @time: 2024/10/10
  */
-public class DailyDutyLog {
+public class DailyDutyLogEntity {
     /**
      * @description 当天日期
      * @type Integer

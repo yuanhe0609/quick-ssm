@@ -5,7 +5,7 @@ package com.company.project.entity;
  * @author: ManolinCoder
  * @time: 2024/10/12
  */
-public class TotalDutyLog {
+public class TotalDutyLogEntity {
     /**
      * @description 员工姓名
      * @type String
@@ -21,6 +21,11 @@ public class TotalDutyLog {
      * @type Integer
      * */
     private Integer month;
+    /**
+     * @description 当天月份
+     * @type Integer
+     * */
+    private Integer year;
     /**
      * @description 当月平日正常工作时间
      * @type Float

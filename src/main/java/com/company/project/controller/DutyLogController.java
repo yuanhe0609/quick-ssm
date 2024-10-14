@@ -1,8 +1,9 @@
 package com.company.project.controller;
 
 import com.alibaba.fastjson2.JSON;
-import com.company.project.entity.DailyDutyLog;
-import com.company.project.entity.TotalDutyLog;
+import com.company.project.entity.DailyDutyLogEntity;
+import com.company.project.entity.EmployeeSalaryEntity;
+import com.company.project.entity.TotalDutyLogEntity;
 import com.company.project.service.DutyLogCalculateFormula;
 import com.company.project.service.EmployeeSalaryCalculate;
 import com.company.project.service.impl.DutyLogCalculateImpl;
@@ -38,12 +39,19 @@ public class DutyLogController {
         }else{
             nowMonth = ""+month;
         }
+
         DutyLogCalculateFormula dutyLogService = new DutyLogCalculateImpl();
-        ResultSet totalDutyLogRs = DbUtil.getTotalDutyLogResultSet("2024-"+nowMonth+"-%");
-        List<DailyDutyLog> dailyDutyLogList = dutyLogService.calculateAttendanceList(totalDutyLogRs);
-        Map<String, List<DailyDutyLog>> classMap = dailyDutyLogList.stream().collect(Collectors.groupingBy(DailyDutyLog::getName));
-        List<TotalDutyLog> totalWorkTime = dutyLogService.calculateTotalWorkTime(classMap);
-        System.out.println(JSON.toJSONString(totalWorkTime));
-        return JSON.toJSONString("finish");
+        EmployeeSalaryCalculate employeeSalaryCalculate = new EmployeeSalaryCalculateImpl();
+        //获取出勤表数据
+        ResultSet totalDutyLogResultSet = DbUtil.getTotalDutyLogResultSet("2024-09-26","2024-10-25");
+        //根据出勤表计算每日出勤时间
+        List<DailyDutyLogEntity> dailyWorkTimeList = dutyLogService.calculateAttendanceList(totalDutyLogResultSet);
+        //根据每日出勤时间计算每月出勤时间
+        Map<String, List<DailyDutyLogEntity>>  classifyByNameMap = dailyWorkTimeList.stream().collect(Collectors.groupingBy(DailyDutyLogEntity::getName));
+        List<TotalDutyLogEntity> monthlyWorkTimeList = dutyLogService.calculateTotalWorkTime(classifyByNameMap);
+        //根据每月出勤时间计算每月工资
+        List<EmployeeSalaryEntity> salaryList = employeeSalaryCalculate.calculateEmployeeSalary(monthlyWorkTimeList,2024,10);
+
+        return JSON.toJSONString(salaryList);
     }
 }

@@ -1,9 +1,8 @@
 package com.company.project.utils;
 
-import com.company.project.entity.TotalDutyLog;
+import com.company.project.entity.TotalDutyLogEntity;
 
 import java.sql.*;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -31,37 +30,35 @@ public class DbUtil {
     public static Connection getConnection(){
         return conn;
     }
-
-    public static ResultSet getTotalDutyLogResultSet(String date){
+    /**
+     * @description 计算每日工作时间
+     * */
+    private static Float calculateDailyTotalWorkTime(Map dailyWeekdaysWorkTimeMap, Map dailyWeekendsWorkTimeMap, Map dailyHolidayWorkTimeMap, Integer day){
+        Float totalTime =0F;
+        totalTime = (Float) dailyWeekdaysWorkTimeMap.get(day)+ (Float) dailyWeekendsWorkTimeMap.get(day) + (Float) dailyHolidayWorkTimeMap.get(day) ;
+        return totalTime;
+    }
+    /**
+     * @description 获取出勤表数据
+     * */
+    public static ResultSet getTotalDutyLogResultSet(String start,String end){
         Connection conn = getConnection();
-        String selectSql = "select * from uf_duty_log where sgsj like ? order by xm,sgsj";
+        String selectSql = "select * from uf_duty_log where sgsj between ? and ?order by xm,sgsj";
         PreparedStatement psSelect = null;
         try {
             psSelect = conn.prepareStatement(selectSql, ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
-            psSelect.setObject(1,date);
+            psSelect.setObject(1,start);
+            psSelect.setObject(2,end);
             ResultSet dutyLogRs = psSelect.executeQuery();
             return dutyLogRs;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
-
-    public static ResultSet getDutyLogResultSet(String name,String date){
-        Connection conn = getConnection();
-        String selectSql = "select * from uf_duty_log where sgsj like ? and xm = ? order by xm,sgsj";
-        PreparedStatement psSelect = null;
-        try {
-            psSelect = conn.prepareStatement(selectSql, ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
-            psSelect.setObject(1,date);
-            psSelect.setObject(2,name);
-            ResultSet dutyLogRs = psSelect.executeQuery();
-            return dutyLogRs;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public static void updateDutyLog(String name, Map<String,Map> mp,String sfzh,Integer month,Integer year){
+    /**
+     * @description 更新每日工作时间记录
+     * */
+    public static void updateDailyDutyLog(String name, Map<String,Map> mp,String sfzh,Integer month,Integer year){
         Connection conn = getConnection();
         String updateSql = "insert into uf_daily_log (xm,sfzh,rq,cqsj,jbsj) values (?,?,?,?,?)";
         String nowMonth = "";
@@ -98,25 +95,28 @@ public class DbUtil {
             throw new RuntimeException(e);
         }
     }
-    public static void updateMonthDutyLog( List<TotalDutyLog> totalDutyLogList,String month){
+    /**
+     * @description 更新每月工作时间记录
+     * */
+    public static void updateMonthDutyLog(List<TotalDutyLogEntity> totalDutyLogEntityList, String month){
         Connection conn = getConnection();
         String updateSql = "insert into uf_monthly_log (xm,sfzh,yf,zcqxss,zcts,yq,prcqxs,prjbxs,zmzcxs,zmjbxs,jrzcxs,jrjbxs) select ?,?,?,?,?,?,?,?,?,?,?,? from DUAL where not exists(select xm,yf from uf_monthly_log where xm =? and yf = ?)";
         try {
-            for(TotalDutyLog totalDutyLog : totalDutyLogList){
+            for(TotalDutyLogEntity totalDutyLogEntity : totalDutyLogEntityList){
                 PreparedStatement psUpdate = conn.prepareStatement(updateSql);
-                psUpdate.setObject(1,totalDutyLog.getName());
-                psUpdate.setObject(2,totalDutyLog.getIdNum());
+                psUpdate.setObject(1, totalDutyLogEntity.getName());
+                psUpdate.setObject(2, totalDutyLogEntity.getIdNum());
                 psUpdate.setObject(3,month);
-                psUpdate.setObject(4,totalDutyLog.getTotalOverTime()+totalDutyLog.getTotalWorkTime());
-                psUpdate.setObject(5,(totalDutyLog.getTotalOverTime()+totalDutyLog.getTotalWorkTime())/8);
-                psUpdate.setObject(6,totalDutyLog.getNightWorkTime());
-                psUpdate.setObject(7,totalDutyLog.getTotalWorkTimeOnWeekdays());
-                psUpdate.setObject(8,totalDutyLog.getTotalOverTimeOnWeekdays());
-                psUpdate.setObject(9,totalDutyLog.getTotalWorkTimeOnWeekends());
-                psUpdate.setObject(10,totalDutyLog.getTotalOverTimeOnWeekends());
-                psUpdate.setObject(11,totalDutyLog.getTotalWorkTimeOnHoliday());
-                psUpdate.setObject(12,totalDutyLog.getTotalOverTimeOnHoliday());
-                psUpdate.setObject(13,totalDutyLog.getName());
+                psUpdate.setObject(4, totalDutyLogEntity.getTotalOverTime()+ totalDutyLogEntity.getTotalWorkTime());
+                psUpdate.setObject(5,(totalDutyLogEntity.getTotalOverTime()+ totalDutyLogEntity.getTotalWorkTime())/8);
+                psUpdate.setObject(6, totalDutyLogEntity.getNightWorkTime());
+                psUpdate.setObject(7, totalDutyLogEntity.getTotalWorkTimeOnWeekdays());
+                psUpdate.setObject(8, totalDutyLogEntity.getTotalOverTimeOnWeekdays());
+                psUpdate.setObject(9, totalDutyLogEntity.getTotalWorkTimeOnWeekends());
+                psUpdate.setObject(10, totalDutyLogEntity.getTotalOverTimeOnWeekends());
+                psUpdate.setObject(11, totalDutyLogEntity.getTotalWorkTimeOnHoliday());
+                psUpdate.setObject(12, totalDutyLogEntity.getTotalOverTimeOnHoliday());
+                psUpdate.setObject(13, totalDutyLogEntity.getName());
                 psUpdate.setObject(14,month);
                 psUpdate.executeUpdate();
             }
@@ -124,10 +124,21 @@ public class DbUtil {
             throw new RuntimeException(e);
         }
     }
-    private static Float calculateDailyTotalWorkTime(Map dailyWeekdaysWorkTimeMap, Map dailyWeekendsWorkTimeMap, Map dailyHolidayWorkTimeMap, Integer day){
-        Float totalTime =0F;
-        totalTime = (Float) dailyWeekdaysWorkTimeMap.get(day)+ (Float) dailyWeekendsWorkTimeMap.get(day) + (Float) dailyHolidayWorkTimeMap.get(day) ;
-        return totalTime;
+    /**
+     * @description 获取出勤表数据
+     * */
+    public static ResultSet getMonthlyDutyLogResultSet(String date){
+        Connection conn = getConnection();
+        String selectSql = "select * from uf_monthly_log where yf = ? order by xm";
+        PreparedStatement psSelect = null;
+        try {
+            psSelect = conn.prepareStatement(selectSql, ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+            psSelect.setObject(1,date);
+            ResultSet dutyLogRs = psSelect.executeQuery();
+            return dutyLogRs;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
 
