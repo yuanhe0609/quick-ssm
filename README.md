@@ -1,7 +1,7 @@
-# ssm项目快速搭建 #
-## 整合了mybatis,redis,mongodb,rabbitmq,swagger的快速开发框架 ##
-### 1.项目配置 ###
-#### 开发环境 ####
+# ssm项目快速搭建
+## 整合了mybatis,redis,mongodb,rabbitmq,swagger的快速开发框架
+### 1.项目配置
+#### 开发环境
 * server：tomcat 9.0.93
 * jdk：jdk 22
 * maven：maven 3.9.8
@@ -11,7 +11,7 @@
 * redis：redis 5.0.14.1
 * mongodb：mongodb 8.0
 * swagger：swagger 2.0
-### 2.自定义配置方式 ###
+### 2.自定义配置方式
 只需在webapp/WEB-INF下的web.xml下进行配置
 ```
 <web-app xmlns="http://java.sun.com/xml/ns/javaee"
@@ -50,4 +50,11 @@
     </servlet-mapping>
 </web-app>
 ```
+### 3.实现功能
+#### 1. 获取一线生产人员出勤记录表
+#### 2. 根据出勤记录表,计算出生产人员每日工作时间(细分为平日正常工作时间,平日加班工作时间,周末正常工作时间,周末加班时间,节日正常工作时间,节日加班时间)
+#### 3. 根据生产人员每日工作时间,计算出生产人员每月总工作时间(细分为平日正常工作小时数,平日加班小时数,周末工作小时数,节日工作小时数)
+#### 4. 根据每月总工作时间,计算出生产人员每月应发工资
+###### 注:目前工作时间没有扣除中间休息时间
+
 
