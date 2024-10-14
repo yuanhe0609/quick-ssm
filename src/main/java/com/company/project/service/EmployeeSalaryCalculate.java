@@ -1,7 +1,10 @@
 package com.company.project.service;
 
+import com.company.project.entity.TotalDutyLog;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  * @description:
@@ -16,5 +19,5 @@ public interface EmployeeSalaryCalculate {
      * */
     Integer BASIC_MONTHLY_SALARY = 2200;
 
-    Integer calculateEmployeeSalary(ResultSet dailyDutyLog) throws SQLException;
+    Integer calculateEmployeeSalary(ResultSet totalDutyLogResultSet) throws SQLException;
 }

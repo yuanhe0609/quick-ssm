@@ -134,4 +134,5 @@ public interface DutyLogCalculateFormula {
      * @return result List<TotalDutyLog>
      */
     public List<TotalDutyLog> calculateTotalWorkTime(Map<String,List<DailyDutyLog>> dutyLogResultSet);
+    public void getTime(int year,int month);
 }

@@ -4,7 +4,9 @@ import com.alibaba.fastjson2.JSON;
 import com.company.project.entity.DailyDutyLog;
 import com.company.project.entity.TotalDutyLog;
 import com.company.project.service.DutyLogCalculateFormula;
+import com.company.project.service.EmployeeSalaryCalculate;
 import com.company.project.service.impl.DutyLogCalculateImpl;
+import com.company.project.service.impl.EmployeeSalaryCalculateImpl;
 import com.company.project.utils.DbUtil;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
@@ -40,9 +42,7 @@ public class DutyLogController {
         ResultSet totalDutyLogRs = DbUtil.getTotalDutyLogResultSet("2024-"+nowMonth+"-%");
         List<DailyDutyLog> dailyDutyLogList = dutyLogService.calculateAttendanceList(totalDutyLogRs);
         Map<String, List<DailyDutyLog>> classMap = dailyDutyLogList.stream().collect(Collectors.groupingBy(DailyDutyLog::getName));
-        List<Map<String,Map>> dailyWorkTime = dutyLogService.calculateDailyWorkTime(classMap);
         List<TotalDutyLog> totalWorkTime = dutyLogService.calculateTotalWorkTime(classMap);
-        DbUtil.updateMonthDutyLog(totalWorkTime,"2024-"+nowMonth);
         System.out.println(JSON.toJSONString(totalWorkTime));
         return JSON.toJSONString("finish");
     }

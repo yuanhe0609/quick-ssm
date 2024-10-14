@@ -45,29 +45,7 @@ public class DutyLogCalculateImpl extends BaseCalculate implements DutyLogCalcul
             return 0F;
         }
     }
-    /**
-     * @description 获取节日类型
-     * @param year int 年
-     * @param month int 月
-     * @param day int 日
-     * @return holidayType String
-     * */
-    private String setHolidayType(int year,int month,int day){
-        String holidayType="";
-        try {
-            Connection conn = DbUtil.getConnection();
-            String selectHolidaySetSql = "select * from KQ_Holiday_Set where groupid = 501 and holidaydate = ?";
-            PreparedStatement psSelectHolidaySet = conn.prepareStatement(selectHolidaySetSql);
-            psSelectHolidaySet.setString(1,year+"-"+month+"-"+day);
-            ResultSet holidaySetRs = psSelectHolidaySet.executeQuery();
-            if(holidaySetRs.next()){
-                holidayType = holidaySetRs.getString(SQL_HOLIDAY_TYPE);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return holidayType;
-    }
+
     /**
      * @description 计算个人每日出勤时间和加班时间(包括平日,周末,节日)
      * @param dutyLogResultSet ResultSet 数据集
@@ -286,14 +264,13 @@ public class DutyLogCalculateImpl extends BaseCalculate implements DutyLogCalcul
                 onJobTime.set(year, month - 1, day, 8, 0, 0);
                 Calendar offJobTime = Calendar.getInstance();
                 offJobTime.set(year, month - 1, day, 17, 0, 0);
-
                 if (Math.abs(getJetLegMin(onJobTime, onJob) + getJetLegHour(onJobTime, onJob) * 60) <= 10) {
                     onJob = onJobTime;
                 }
                 if (Math.abs(getJetLegMin(offJobTime, offJob) + getJetLegHour(offJobTime, offJob) * 60) <= 10) {
                     offJob = offJobTime;
                 }
-                String holidayType = setHolidayType(year,month,day);
+                String holidayType = getHolidayType(year,month,day);
                 if (!holidayType.equals("")) {
                     if (holidayType.equals("1") || holidayType.equals("3")) {
                         festivalWorkTime = getWorkTime(onJob, offJob);
@@ -430,5 +407,9 @@ public class DutyLogCalculateImpl extends BaseCalculate implements DutyLogCalcul
             result.add(totalDutyLog);
         }
         return result;
+    }
+    public void getTime(int year,int month){
+        System.out.println(JSON.toJSONString(getBasicAttendanceCalendar(year,month)));
+        System.out.println(getBasicAttendanceHour(getBasicAttendanceCalendar(year,month)));
     }
 }
