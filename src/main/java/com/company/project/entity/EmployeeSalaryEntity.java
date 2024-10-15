@@ -11,35 +11,19 @@ public class EmployeeSalaryEntity {
     private Integer month;
     private Float salary;
 
-    public String getName() {
-        return name;
-    }
+    public String getName() {return name;}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    public void setName(String name) {this.name = name;}
 
-    public String getIdNum() {
-        return idNum;
-    }
+    public String getIdNum() {return idNum;}
 
-    public void setIdNum(String idNum) {
-        this.idNum = idNum;
-    }
+    public void setIdNum(String idNum) {this.idNum = idNum;}
 
-    public Integer getMonth() {
-        return month;
-    }
+    public Integer getMonth() {return month;}
 
-    public void setMonth(Integer month) {
-        this.month = month;
-    }
+    public void setMonth(Integer month) {this.month = month;}
 
-    public Float getSalary() {
-        return salary;
-    }
+    public Float getSalary() {return salary;}
 
-    public void setSalary(Float salary) {
-        this.salary = salary;
-    }
+    public void setSalary(Float salary) {this.salary = salary;}
 }

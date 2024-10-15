@@ -49,7 +49,7 @@ public class EmployeeSalaryCalculateImpl extends BaseCalculate implements Employ
             employeeSalary.setIdNum(totalDutyLogResultSet.getString(SQL_IDNUM));
             employeeSalary.setMonth(month);
             employeeSalary.setSalary((float) (BASIC_MONTHLY_SALARY*totalWorkTimeOnWeekdays/basicTotalWorkTime+BASIC_MONTHLY_SALARY/21.75/8*1.5*totalDutyLogResultSet.getFloat(SQL_TOTAL_OVER_TIME_ON_WEEKDAYS)+BASIC_MONTHLY_SALARY/21.75/8*2*totalWorkTimeOnWeekends+BASIC_MONTHLY_SALARY/21.75/8*3*totalWorkTimeOnHoliday+totalDutyLogResultSet.getInt(SQL_NIGHT_WORK_TIMES)*50));
-            log.info("name:"+ employeeSalary.getName()+"|salary:"+employeeSalary.getSalary()+":{base:"+BASIC_MONTHLY_SALARY*totalWorkTimeOnWeekdays/basicTotalWorkTime+",add:"+BASIC_MONTHLY_SALARY/21.75/8*1.5*totalDutyLogResultSet.getFloat(SQL_TOTAL_OVER_TIME_ON_WEEKDAYS)+",weekends:"+BASIC_MONTHLY_SALARY/21.75/8*2*totalWorkTimeOnWeekends+",holiday:"+BASIC_MONTHLY_SALARY/21.75/8*3*totalWorkTimeOnHoliday+",night:"+totalDutyLogResultSet.getInt(SQL_NIGHT_WORK_TIMES)*50+"}");
+            log.info("{name:"+ employeeSalary.getName()+",salary:"+employeeSalary.getSalary()+",base:"+BASIC_MONTHLY_SALARY*totalWorkTimeOnWeekdays/basicTotalWorkTime+",add:"+BASIC_MONTHLY_SALARY/21.75/8*1.5*totalDutyLogResultSet.getFloat(SQL_TOTAL_OVER_TIME_ON_WEEKDAYS)+",weekends:"+BASIC_MONTHLY_SALARY/21.75/8*2*totalWorkTimeOnWeekends+",holiday:"+BASIC_MONTHLY_SALARY/21.75/8*3*totalWorkTimeOnHoliday+",night:"+totalDutyLogResultSet.getInt(SQL_NIGHT_WORK_TIMES)*50+"}");
             result.add(employeeSalary);
         }
         return result;
@@ -85,7 +85,7 @@ public class EmployeeSalaryCalculateImpl extends BaseCalculate implements Employ
             employeeSalary.setIdNum(totalDutyLogResultSet.getString(SQL_IDNUM));
             employeeSalary.setMonth(month);
             employeeSalary.setSalary((float) (BASIC_MONTHLY_SALARY*totalWorkTimeOnWeekdays/basicTotalWorkTime+BASIC_MONTHLY_SALARY/21.75/8*1.5*totalDutyLogResultSet.getFloat(SQL_TOTAL_OVER_TIME_ON_WEEKDAYS)+BASIC_MONTHLY_SALARY/21.75/8*2*totalWorkTimeOnWeekends+BASIC_MONTHLY_SALARY/21.75/8*3*totalWorkTimeOnHoliday+totalDutyLogResultSet.getInt(SQL_NIGHT_WORK_TIMES)*50));
-            log.info("name:"+ employeeSalary.getName()+"|salary:"+employeeSalary.getSalary()+":{base:"+BASIC_MONTHLY_SALARY*totalWorkTimeOnWeekdays/basicTotalWorkTime+",add:"+BASIC_MONTHLY_SALARY/21.75/8*1.5*totalDutyLogResultSet.getFloat(SQL_TOTAL_OVER_TIME_ON_WEEKDAYS)+",weekends:"+BASIC_MONTHLY_SALARY/21.75/8*2*totalWorkTimeOnWeekends+",holiday:"+BASIC_MONTHLY_SALARY/21.75/8*3*totalWorkTimeOnHoliday+",night:"+totalDutyLogResultSet.getInt(SQL_NIGHT_WORK_TIMES)*50+"}");
+            log.info("{name:"+ employeeSalary.getName()+",salary:"+employeeSalary.getSalary()+",base:"+BASIC_MONTHLY_SALARY*totalWorkTimeOnWeekdays/basicTotalWorkTime+",add:"+BASIC_MONTHLY_SALARY/21.75/8*1.5*totalDutyLogResultSet.getFloat(SQL_TOTAL_OVER_TIME_ON_WEEKDAYS)+",weekends:"+BASIC_MONTHLY_SALARY/21.75/8*2*totalWorkTimeOnWeekends+",holiday:"+BASIC_MONTHLY_SALARY/21.75/8*3*totalWorkTimeOnHoliday+",night:"+totalDutyLogResultSet.getInt(SQL_NIGHT_WORK_TIMES)*50+"}");
             result.add(employeeSalary);
         }
         return result;
@@ -121,7 +121,7 @@ public class EmployeeSalaryCalculateImpl extends BaseCalculate implements Employ
             employeeSalary.setIdNum(totalDutyLog.getIdNum());
             employeeSalary.setMonth(month);
             employeeSalary.setSalary((float) (BASIC_MONTHLY_SALARY*totalWorkTimeOnWeekdays/basicTotalWorkTime+BASIC_MONTHLY_SALARY/21.75/8*1.5*totalDutyLog.getTotalOverTimeOnWeekdays()+BASIC_MONTHLY_SALARY/21.75/8*2*totalWorkTimeOnWeekends+BASIC_MONTHLY_SALARY/21.75/8*3*totalWorkTimeOnHoliday+totalDutyLog.getNightWorkTime()*50));
-            log.info("name:"+ employeeSalary.getName()+"|salary:"+employeeSalary.getSalary()+":{base:"+BASIC_MONTHLY_SALARY*totalWorkTimeOnWeekdays/basicTotalWorkTime+",add:"+BASIC_MONTHLY_SALARY/21.75/8*1.5*totalDutyLog.getTotalOverTimeOnWeekdays()+",weekends:"+BASIC_MONTHLY_SALARY/21.75/8*2*totalWorkTimeOnWeekends+",holiday:"+BASIC_MONTHLY_SALARY/21.75/8*3*totalWorkTimeOnHoliday+",night:"+totalDutyLog.getNightWorkTime()*50+"}");
+            log.info("{name:"+ employeeSalary.getName()+",salary:"+employeeSalary.getSalary()+",base:"+BASIC_MONTHLY_SALARY*totalWorkTimeOnWeekdays/basicTotalWorkTime+",add:"+BASIC_MONTHLY_SALARY/21.75/8*1.5*totalDutyLog.getTotalOverTimeOnWeekdays()+",weekends:"+BASIC_MONTHLY_SALARY/21.75/8*2*totalWorkTimeOnWeekends+",holiday:"+BASIC_MONTHLY_SALARY/21.75/8*3*totalWorkTimeOnHoliday+",night:"+totalDutyLog.getNightWorkTime()*50+"}");
             result.add(employeeSalary);
         }
         return result;

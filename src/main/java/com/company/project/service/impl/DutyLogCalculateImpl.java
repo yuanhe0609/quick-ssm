@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.jdbc.SQL;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
@@ -46,7 +45,6 @@ public class DutyLogCalculateImpl extends BaseCalculate implements DutyLogCalcul
             return 0F;
         }
     }
-
     /**
      * @description 计算个人每日出勤时间和加班时间(包括平日,周末,节日)
      * @param dutyLogResultSet ResultSet 数据集

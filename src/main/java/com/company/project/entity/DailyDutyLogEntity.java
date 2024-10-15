@@ -68,99 +68,51 @@ public class DailyDutyLogEntity {
     private Float overTimeOnHoliday;
 
 
-    public Float getOnWorkTime() {
-        return onWorkTime;
-    }
+    public Float getOnWorkTime() {return onWorkTime;}
 
-    public Float getOnDutyTime() {
-        return onDutyTime;
-    }
+    public Float getOnDutyTime() {return onDutyTime;}
 
-    public Float getAttendanceOnWeekdays() {
-        return attendanceOnWeekdays;
-    }
+    public Float getAttendanceOnWeekdays() {return attendanceOnWeekdays;}
 
-    public Float getOverTimeOnWeekdays() {
-        return overTimeOnWeekdays;
-    }
+    public Float getOverTimeOnWeekdays() {return overTimeOnWeekdays;}
 
-    public Float getAttendanceOnWeekends() {
-        return attendanceOnWeekends;
-    }
+    public Float getAttendanceOnWeekends() {return attendanceOnWeekends;}
 
-    public Float getAttendanceOnHoliday() {
-        return attendanceOnHoliday;
-    }
+    public Float getAttendanceOnHoliday() {return attendanceOnHoliday;}
 
-    public Float getOverTimeOnWeekends() {
-        return overTimeOnWeekends;
-    }
+    public Float getOverTimeOnWeekends() {return overTimeOnWeekends;}
 
-    public Float getOverTimeOnHoliday() {
-        return overTimeOnHoliday;
-    }
+    public Float getOverTimeOnHoliday() {return overTimeOnHoliday;}
 
-    public void setOnDutyTime(Float onDutyTime) {
-        this.onDutyTime = onDutyTime;
-    }
+    public void setOnDutyTime(Float onDutyTime) {this.onDutyTime = onDutyTime;}
 
-    public void setOnWorkTime(Float onWorkTime) {
-        this.onWorkTime = onWorkTime;
-    }
+    public void setOnWorkTime(Float onWorkTime) {this.onWorkTime = onWorkTime;}
 
-    public void setOverTimeOnWeekdays(Float overTimeOnWeekdays) {
-        this.overTimeOnWeekdays = overTimeOnWeekdays;
-    }
+    public void setOverTimeOnWeekdays(Float overTimeOnWeekdays) {this.overTimeOnWeekdays = overTimeOnWeekdays;}
 
-    public void setAttendanceOnWeekdays(Float attendanceOnWeekdays) {
-        this.attendanceOnWeekdays = attendanceOnWeekdays;
-    }
+    public void setAttendanceOnWeekdays(Float attendanceOnWeekdays) {this.attendanceOnWeekdays = attendanceOnWeekdays;}
 
-    public void setAttendanceOnWeekends(Float attendanceOnWeekends) {
-        this.attendanceOnWeekends = attendanceOnWeekends;
-    }
+    public void setAttendanceOnWeekends(Float attendanceOnWeekends) {this.attendanceOnWeekends = attendanceOnWeekends;}
 
-    public void setOverTimeOnWeekends(Float overTimeOnWeekends) {
-        this.overTimeOnWeekends = overTimeOnWeekends;
-    }
+    public void setOverTimeOnWeekends(Float overTimeOnWeekends) {this.overTimeOnWeekends = overTimeOnWeekends;}
 
-    public void setAttendanceOnHoliday(Float attendanceOnHoliday) {
-        this.attendanceOnHoliday = attendanceOnHoliday;
-    }
+    public void setAttendanceOnHoliday(Float attendanceOnHoliday) {this.attendanceOnHoliday = attendanceOnHoliday;}
 
-    public void setOverTimeOnHoliday(Float overTimeOnHoliday) {
-        this.overTimeOnHoliday = overTimeOnHoliday;
-    }
+    public void setOverTimeOnHoliday(Float overTimeOnHoliday) {this.overTimeOnHoliday = overTimeOnHoliday;}
 
-    public Integer getDay() {
-        return day;
-    }
+    public Integer getDay() {return day;}
 
-    public void setDay(Integer day) {
-        this.day = day;
-    }
+    public void setDay(Integer day) {this.day = day;}
 
-    public String getName() {
-        return name;
-    }
+    public String getName() {return name;}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    public void setName(String name) {this.name = name;}
 
-    public String getWorkType() {
-        return workType;
-    }
+    public String getWorkType() {return workType;}
 
-    public void setWorkType(String workType) {
-        this.workType = workType;
-    }
+    public void setWorkType(String workType) {this.workType = workType;}
 
-    public String getIdNum() {
-        return idNum;
-    }
+    public String getIdNum() {return idNum;}
 
-    public void setIdNum(String idNum) {
-        this.idNum = idNum;
-    }
+    public void setIdNum(String idNum) {this.idNum = idNum;}
 }

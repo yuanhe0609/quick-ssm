@@ -24,9 +24,7 @@ public class DbUtil {
             e.printStackTrace();
         }
     }
-    public static Connection getConnection(){
-        return conn;
-    }
+    public static Connection getConnection(){return conn;}
     /**
      * @description 计算每日工作时间
      * */

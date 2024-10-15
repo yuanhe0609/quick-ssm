@@ -9,6 +9,7 @@ import com.company.project.service.EmployeeSalaryCalculate;
 import com.company.project.utils.DbUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,7 +35,6 @@ public class DutyLogController {
     private DutyLogCalculate dutyLogCalculate;
     @Autowired
     private EmployeeSalaryCalculate employeeSalaryCalculate;
-
     @RequestMapping(value = "/calculate/{year}/{month}", produces = "text/html;charset=utf-8")
     @ApiOperation(value = "计算员工出勤时间以及工资")
     public String calculateLog(@PathVariable Integer year, @PathVariable Integer month) throws SQLException, ParseException {
@@ -53,12 +53,13 @@ public class DutyLogController {
 
         //获取出勤表数据
         ResultSet totalDutyLogResultSet = DbUtil.getTotalDutyLogResultSet(year+"-"+lastMonth+"-26",year+"-"+currentMonth+"-25");
-        //根据出勤表计算每日出勤时间
+        //根据出勤表,计算每日出勤时间
         List<DailyDutyLogEntity> dailyWorkTimeList = dutyLogCalculate.calculateAttendanceList(totalDutyLogResultSet);
-        //根据每日出勤时间计算每月出勤时间
+        //根据每日出勤时间,按姓名分类存到Map中
         Map<String, List<DailyDutyLogEntity>>  classifyByNameMap = dailyWorkTimeList.stream().collect(Collectors.groupingBy(DailyDutyLogEntity::getName));
+        //根据已分类好的每日出勤时间,计算每月出勤时间
         List<TotalDutyLogEntity> monthlyWorkTimeList = dutyLogCalculate.calculateTotalWorkTime(classifyByNameMap);
-        //根据每月出勤时间计算每月工资
+        //根据每月出勤时间,计算每月工资
         List<EmployeeSalaryEntity> salaryList = employeeSalaryCalculate.calculateEmployeeSalary(monthlyWorkTimeList,year,month);
 
         return JSON.toJSONString(salaryList);

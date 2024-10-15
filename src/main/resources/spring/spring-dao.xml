@@ -9,7 +9,8 @@
 
     <context:property-placeholder location="classpath:mybatis/*.properties,
                                             classpath:mongodb/*.properties,
-                                            classpath:redis/*.properties"
+                                            classpath:redis/*.properties,
+                                             classpath:*.yml"
     />
 
     <!--配置数据库连接池-->

@@ -191,7 +191,6 @@ public class BaseCalculate {
     }
     protected List<Date> getBasicAttendanceCalendar(Integer year, Integer month){
         List<Date> calendarList = new ArrayList<>();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Calendar lastMonthAttendanceCalendar = Calendar.getInstance();
         Calendar currentMonthAttendanceCalendar = Calendar.getInstance();
         lastMonthAttendanceCalendar.set(year,month-2,25);
@@ -213,7 +212,6 @@ public class BaseCalculate {
     }
     protected Float getBasicAttendanceHour(List<Date> calendarList){
         Float basicAttendanceHour = 0f;
-        SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd");
         for(Date date : calendarList){
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(date);
