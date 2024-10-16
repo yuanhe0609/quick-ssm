@@ -67,7 +67,6 @@ public class DailyDutyLogEntity {
      * */
     private Float overTimeOnHoliday;
 
-
     public Float getOnWorkTime() {return onWorkTime;}
 
     public Float getOnDutyTime() {return onDutyTime;}

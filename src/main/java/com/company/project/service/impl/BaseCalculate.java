@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -18,6 +19,24 @@ import java.util.List;
  * @time: 2024/10/11
  */
 public class BaseCalculate {
+    /**
+     * @description 定义日期格式
+     * @type SimpleDateFormat
+     * @default yyyy-MM-dd HH:mm:ss
+     * */
+    final SimpleDateFormat SDF_WITH_TIME = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    /**
+     * @description 定义日期格式
+     * @type SimpleDateFormat
+     * @default yyyy-MM-dd
+     * */
+    final SimpleDateFormat SDF_NO_TIME = new SimpleDateFormat("yyyy-MM-dd");
+    /**
+     * @description 定义浮点数小数点个数
+     * @type DecimalFormat
+     * @default 1位数
+     * */
+    final DecimalFormat DF = new DecimalFormat("0.0");
     /**
      * @description 用于数据库操作的生产人员姓名字段的字段名
      * @type String
@@ -261,7 +280,7 @@ public class BaseCalculate {
             Connection conn = DbUtil.getConnection();
             String selectHolidaySetSql = "select * from KQ_Holiday_Set where groupid = 501 and holidaydate = ?";
             PreparedStatement psSelectHolidaySet = conn.prepareStatement(selectHolidaySetSql);
-            psSelectHolidaySet.setString(1, DutyLogCalculate.SDF_NO_TIME.format(calendar.getTime()));
+            psSelectHolidaySet.setString(1, SDF_NO_TIME.format(calendar.getTime()));
             ResultSet holidaySetRs = psSelectHolidaySet.executeQuery();
             if(holidaySetRs.next()){
                 holidayType = holidaySetRs.getString(SQL_HOLIDAY_TYPE);

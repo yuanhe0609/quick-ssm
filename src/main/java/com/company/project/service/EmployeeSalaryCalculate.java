@@ -2,7 +2,6 @@ package com.company.project.service;
 
 import com.company.project.entity.EmployeeSalaryEntity;
 import com.company.project.entity.TotalDutyLogEntity;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;

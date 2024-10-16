@@ -9,7 +9,11 @@ public class EmployeeSalaryEntity {
     private String name;
     private String idNum;
     private Integer month;
-    private Float salary;
+    private Float totalSalary;
+    private Float basicSalary;
+    private Float weekdaysOverTimeSalary;
+    private Float weekendsSalary;
+    private Float holidaySalary;
 
     public String getName() {return name;}
 
@@ -23,7 +27,7 @@ public class EmployeeSalaryEntity {
 
     public void setMonth(Integer month) {this.month = month;}
 
-    public Float getSalary() {return salary;}
+    public Float getTotalSalary() {return totalSalary;}
 
-    public void setSalary(Float salary) {this.salary = salary;}
+    public void setTotalSalary(Float salary) {this.totalSalary = salary;}
 }

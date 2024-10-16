@@ -50,7 +50,6 @@ public class DutyLogController {
             currentMonth = ""+month;
             lastMonth = "" + (month-1);
         }
-
         //获取出勤表数据
         ResultSet totalDutyLogResultSet = DbUtil.getTotalDutyLogResultSet(year+"-"+lastMonth+"-26",year+"-"+currentMonth+"-25");
         //根据出勤表,计算每日出勤时间

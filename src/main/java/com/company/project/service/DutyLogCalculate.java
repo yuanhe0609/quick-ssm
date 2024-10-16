@@ -1,7 +1,7 @@
 package com.company.project.service;
+
 import com.company.project.entity.DailyDutyLogEntity;
 import com.company.project.entity.TotalDutyLogEntity;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
@@ -14,25 +14,6 @@ import java.util.Map;
  * @time: 2024/10/9
  */
 public interface DutyLogCalculate {
-    /**
-     * @description 定义日期格式
-     * @type SimpleDateFormat
-     * @default yyyy-MM-dd HH:mm:ss
-     * */
-    final SimpleDateFormat SDF_WITH_TIME = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    /**
-     * @description 定义日期格式
-     * @type SimpleDateFormat
-     * @default yyyy-MM-dd
-     * */
-    final SimpleDateFormat SDF_NO_TIME = new SimpleDateFormat("yyyy-MM-dd");
-    /**
-     * @description 定义浮点数小数点个数
-     * @type DecimalFormat
-     * @default 1位数
-     * */
-    final DecimalFormat DF = new DecimalFormat("0.0");
-
     /**
      * @description 更新出勤表
      * @param dutyLogResultSet ResultSet
