@@ -120,8 +120,13 @@ public class EmployeeSalaryCalculateImpl extends BaseCalculate implements Employ
             employeeSalary.setName(totalDutyLog.getName());
             employeeSalary.setIdNum(totalDutyLog.getIdNum());
             employeeSalary.setMonth(month);
-            employeeSalary.setTotalSalary(Float.valueOf(DF.format(BASIC_MONTHLY_SALARY*totalWorkTimeOnWeekdays/basicTotalWorkTime+BASIC_MONTHLY_SALARY/21.75/8*1.5*totalDutyLog.getTotalOverTimeOnWeekdays()+BASIC_MONTHLY_SALARY/21.75/8*2*totalWorkTimeOnWeekends+BASIC_MONTHLY_SALARY/21.75/8*3*totalWorkTimeOnHoliday+totalDutyLog.getNightWorkTime()*50)));
-            log.info("{name:"+ employeeSalary.getName()+",totalSalary:"+employeeSalary.getTotalSalary()+",base:"+BASIC_MONTHLY_SALARY*totalWorkTimeOnWeekdays/basicTotalWorkTime+",add:"+BASIC_MONTHLY_SALARY/21.75/8*1.5*totalDutyLog.getTotalOverTimeOnWeekdays()+",weekends:"+BASIC_MONTHLY_SALARY/21.75/8*2*totalWorkTimeOnWeekends+",holiday:"+BASIC_MONTHLY_SALARY/21.75/8*3*totalWorkTimeOnHoliday+",night:"+totalDutyLog.getNightWorkTime()*50+"}");
+            employeeSalary.setBasicSalary(Float.valueOf(DF.format(BASIC_MONTHLY_SALARY*totalWorkTimeOnWeekdays/basicTotalWorkTime)));
+            employeeSalary.setWeekdaysOverTimeSalary(Float.valueOf(DF.format(BASIC_MONTHLY_SALARY/21.75/8*1.5*totalDutyLog.getTotalOverTimeOnWeekdays())));
+            employeeSalary.setWeekendsSalary(Float.valueOf(DF.format(BASIC_MONTHLY_SALARY/21.75/8*2*totalWorkTimeOnWeekends)));
+            employeeSalary.setHolidaySalary(Float.valueOf(DF.format(BASIC_MONTHLY_SALARY/21.75/8*3*totalWorkTimeOnHoliday)));
+            employeeSalary.setNightWorkSalary(Float.valueOf(totalDutyLog.getNightWorkTime()*50));
+            employeeSalary.setTotalSalary(employeeSalary.getBasicSalary()+ employeeSalary.getWeekdaysOverTimeSalary()+ employeeSalary.getWeekendsSalary()+ employeeSalary.getHolidaySalary()+ employeeSalary.getNightWorkSalary());
+            log.info("{name:"+ employeeSalary.getName()+",totalSalary:"+employeeSalary.getTotalSalary()+",base:"+employeeSalary.getBasicSalary()+",add:"+employeeSalary.getWeekdaysOverTimeSalary()+",weekends:"+employeeSalary.getWeekendsSalary()+",holiday:"+employeeSalary.getHolidaySalary()+",night:"+employeeSalary.getNightWorkSalary()+"}");
             result.add(employeeSalary);
         }
         return result;

@@ -14,6 +14,7 @@ public class EmployeeSalaryEntity {
     private Float weekdaysOverTimeSalary;
     private Float weekendsSalary;
     private Float holidaySalary;
+    private Float nightWorkSalary;
 
     public String getName() {return name;}
 
@@ -30,4 +31,44 @@ public class EmployeeSalaryEntity {
     public Float getTotalSalary() {return totalSalary;}
 
     public void setTotalSalary(Float salary) {this.totalSalary = salary;}
+
+    public Float getBasicSalary() {
+        return basicSalary;
+    }
+
+    public void setBasicSalary(Float basicSalary) {
+        this.basicSalary = basicSalary;
+    }
+
+    public Float getWeekdaysOverTimeSalary() {
+        return weekdaysOverTimeSalary;
+    }
+
+    public void setWeekdaysOverTimeSalary(Float weekdaysOverTimeSalary) {
+        this.weekdaysOverTimeSalary = weekdaysOverTimeSalary;
+    }
+
+    public Float getWeekendsSalary() {
+        return weekendsSalary;
+    }
+
+    public void setWeekendsSalary(Float weekendsSalary) {
+        this.weekendsSalary = weekendsSalary;
+    }
+
+    public Float getHolidaySalary() {
+        return holidaySalary;
+    }
+
+    public void setHolidaySalary(Float holidaySalary) {
+        this.holidaySalary = holidaySalary;
+    }
+
+    public Float getNightWorkSalary() {
+        return nightWorkSalary;
+    }
+
+    public void setNightWorkSalary(Float nightWorkSalary) {
+        this.nightWorkSalary = nightWorkSalary;
+    }
 }
