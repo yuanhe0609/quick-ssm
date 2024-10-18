@@ -4,7 +4,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
     <!--注入SwaggerConfig配置-->
-    <bean class="com.company.project.utils.SwaggerConfig"/>
+    <bean class="com.company.project.config.SwaggerConfig"/>
     <!--配置swagger静态资源不被拦截-->
     <mvc:resources mapping="/swagger/**" location="/WEB-INF/swagger"/>
 

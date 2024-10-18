@@ -1,4 +1,4 @@
-package com.company.project.utils;
+package com.company.project.config;
 
 import io.swagger.annotations.ApiOperation;
 import org.springframework.context.annotation.Bean;
@@ -21,7 +21,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 @EnableWebMvc
 public class SwaggerConfig {
-
     @Bean
     public Docket createRestApi() {
         return new Docket(DocumentationType.SWAGGER_2)
@@ -36,15 +35,12 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("ssm-single Api Documentation")
-                .description("ssm-single项目后台API接口文档")
-                .termsOfServiceUrl("https://www.baidu.com/")
-                .license("iszengziqiang@163.com")
+                .title("ssm Api Documentation")
+                .description("ssm项目后台API接口文档")
+                .termsOfServiceUrl("http://localhost:8080/springMVC")
                 .version("1.0.0")
                 .build();
     }
-
-
 }
 
 

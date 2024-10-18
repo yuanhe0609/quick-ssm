@@ -25,6 +25,7 @@ public class EmployeeSalaryCalculateImpl extends BaseCalculate implements Employ
      * @return result List<EmployeeSalaryEntity>
      * @description 计算所有人每月工资
      */
+    @Deprecated
     @Override
     public List<EmployeeSalaryEntity> calculateEmployeeSalary(ResultSet totalDutyLogResultSet,Integer year,Integer month) throws SQLException {
         List<EmployeeSalaryEntity> result = new ArrayList<>();
@@ -59,6 +60,7 @@ public class EmployeeSalaryCalculateImpl extends BaseCalculate implements Employ
      * @return result List<EmployeeSalaryEntity>
      * @description 计算所有人每月工资
      */
+    @Deprecated
     @Override
     public List<EmployeeSalaryEntity> calculateEmployeeSalary(ResultSet totalDutyLogResultSet) throws SQLException {
         List<EmployeeSalaryEntity> result = new ArrayList<>();

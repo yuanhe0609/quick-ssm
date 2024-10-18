@@ -316,7 +316,7 @@ public class DutyLogCalculateImpl extends BaseCalculate implements DutyLogCalcul
         result.put("dailyWeekendsOverTimeMap",getWorkTimeAndOverTimeMap(dutyLogResultSet,SQL_WORK_TIME_ON_WEEKENDS,SQL_OVER_TIME_ON_WEEKENDS).get(1));
         result.put("dailyHolidayWorkTimeMap",getWorkTimeAndOverTimeMap(dutyLogResultSet,SQL_WORK_TIME_ON_HOLIDAY,SQL_OVER_TIME_ON_HOLIDAY).get(0));
         result.put("dailyHolidayOverTimeMap",getWorkTimeAndOverTimeMap(dutyLogResultSet,SQL_WORK_TIME_ON_HOLIDAY,SQL_OVER_TIME_ON_HOLIDAY).get(1));
-        return result;
+           return result;
     }
     /**
      * @param dutyLogMap Map<String,List<DailyDutyLog>>
@@ -344,6 +344,7 @@ public class DutyLogCalculateImpl extends BaseCalculate implements DutyLogCalcul
      * @return result DutyLog
      * @description 计算个人每月总出勤,加班,夜勤时间
      */
+    @Deprecated
     @Override
     public TotalDutyLogEntity calculateTotalWorkTime(ResultSet dutyLogResultSet) throws SQLException {
         TotalDutyLogEntity totalDutyLogEntity = new TotalDutyLogEntity();
