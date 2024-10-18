@@ -24,26 +24,29 @@ public class DutyLogApiTest {
     @Test
     public void Test() {
         HttpClientUtil httpClientUtil = new HttpClientUtil();
-        String resultGet = httpClientUtil.doHttpGet("http://localhost:8080/springMVC/calculate/2024/10");
-        List<TotalDutyLogEntity> list =  JSON.parseObject(resultGet, List.class);
+//        String resultGet = httpClientUtil.doHttpGet("http://localhost:8080/springMVC/calculate/2024/10");
+//        List<TotalDutyLogEntity> list =  JSON.parseObject(resultGet, List.class);
         String filePath = "C:\\Users\\33502\\Desktop\\result.txt"; // 文件路径
-
+//        String url = "https://whyta.cn/api/tx/douyinhot?key=cc8cba0a7069";
+//        String result = httpClientUtil.doHttpGet(url);
+//        List list = JSON.parseObject(result,List.class);
+//        System.out.println(list);
         Class DutyLogController = DutyLogController.class;
         Annotation[] annotations = (Annotation[]) DutyLogController.getAnnotations();
         for (Annotation annotation : annotations) {
             System.out.println(annotation);
         }
         RestController restController = (RestController) DutyLogController.getDeclaredAnnotation(RestController.class);
-        System.out.println(restController.value());
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-            for(int i=0;i<list.size();i++){
-                writer.write(JSON.toJSONString(list.get(i)));
-                writer.newLine();
-            }
-            System.out.println("文件创建成功并且内容已写入。");
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.err.println("文件创建或写入失败。");
-        }
+//        System.out.println(restController.value());
+//        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+//            for(int i=0;i<list.size();i++){
+//                writer.write(JSON.toJSONString(list.get(i)));
+//                writer.newLine();
+//            }
+//            System.out.println("文件创建成功并且内容已写入。");
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            System.err.println("文件创建或写入失败。");
+//        }
     }
 }

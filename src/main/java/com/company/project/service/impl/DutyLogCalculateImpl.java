@@ -268,21 +268,124 @@ public class DutyLogCalculateImpl extends BaseCalculate implements DutyLogCalcul
                     offJob = offJobTime;
                 }
                 String holidayType = getHolidayType(year,month,day);
-                if (!holidayType.equals("")) {
-                    if (holidayType.equals("1") || holidayType.equals("3")) {
-                        festivalWorkTime = getWorkTime(onJob, offJob);
-                        festivalOverTime = getOverTime(onJob, offJob);
-                    } else if (holidayType.equals("2")) {
-                        weekdayWorkTime = getWorkTime(onJob, offJob);
-                        weekdayOverTime = getOverTime(onJob, offJob);
-                    }
-                } else {
-                    if (dayOfWeekInt >= 6) {
-                        weekendWorkTime = getWorkTime(onJob, offJob);
-                        weekendOverTime = getOverTime(onJob, offJob);
+                Calendar breakStartTime = Calendar.getInstance();
+                breakStartTime.set(year, month - 1, day, 12, 0, 0);
+                Calendar breakEndTime = Calendar.getInstance();
+                breakEndTime.set(year, month - 1, day, 13, 0, 0);
+                if(onJob.before(breakStartTime) && offJob.before(breakStartTime)){
+                    //12点前打卡上岗，12点前打卡离岗
+                    if (!holidayType.equals("")) {
+                        if (holidayType.equals("1") || holidayType.equals("3")) {
+                            festivalWorkTime = getWorkTime(onJob, offJob);
+                            festivalOverTime = 0f;
+                        } else if (holidayType.equals("2")) {
+                            weekdayWorkTime = getWorkTime(onJob, offJob);
+                            weekdayOverTime = 0f;
+                        }
                     } else {
-                        weekdayWorkTime = getWorkTime(onJob, offJob);
-                        weekdayOverTime = getOverTime(onJob, offJob);
+                        if (dayOfWeekInt >= 6) {
+                            weekendWorkTime = getWorkTime(onJob, offJob);
+                            weekendOverTime = 0f;
+                        } else {
+                            weekdayWorkTime = getWorkTime(onJob, offJob);
+                            weekdayOverTime = 0f;
+                        }
+                    }
+                }else if(onJob.before(breakStartTime) && offJob.after(breakStartTime) && offJob.before(breakEndTime)){
+                    //12点前打卡上岗，12点后13点前打卡离岗
+                    if (!holidayType.equals("")) {
+                        if (holidayType.equals("1") || holidayType.equals("3")) {
+                            festivalWorkTime = getWorkTime(onJob, breakStartTime);
+                            festivalOverTime = 0f;
+                        } else if (holidayType.equals("2")) {
+                            weekdayWorkTime = getWorkTime(onJob, breakStartTime);
+                            weekdayOverTime = 0f;
+                        }
+                    } else {
+                        if (dayOfWeekInt >= 6) {
+                            weekendWorkTime = getWorkTime(onJob, breakStartTime);
+                            weekendOverTime = 0f;
+                        } else {
+                            weekdayWorkTime = getWorkTime(onJob, breakStartTime);
+                            weekdayOverTime = 0f;
+                        }
+                    }
+                }else if(onJob.before(breakStartTime) && offJob.after(breakEndTime)){
+                    //12点前打卡上岗，13点后打卡离岗
+                    offJob.add(Calendar.HOUR_OF_DAY,-1);
+                    if (!holidayType.equals("")) {
+                        if (holidayType.equals("1") || holidayType.equals("3")) {
+                            festivalWorkTime = getWorkTime(onJob, offJob);
+                            festivalOverTime = getOverTime(onJob, offJob);
+                        } else if (holidayType.equals("2")) {
+                            weekdayWorkTime = getWorkTime(onJob, offJob);
+                            weekdayOverTime = getOverTime(onJob, offJob);
+                        }
+                    } else {
+                        if (dayOfWeekInt >= 6) {
+                            weekendWorkTime = getWorkTime(onJob, offJob);
+                            weekendOverTime = getOverTime(onJob, offJob);
+                        } else {
+                            weekdayWorkTime = getWorkTime(onJob, offJob);
+                            weekdayOverTime = getOverTime(onJob, offJob);
+                        }
+                    }
+                }else if(onJob.after(breakStartTime) && onJob.before(breakEndTime) && offJob.before(breakEndTime)){
+                    //12点后13点前打卡上岗，13点前打卡离岗
+                    if (!holidayType.equals("")) {
+                        if (holidayType.equals("1") || holidayType.equals("3")) {
+                            festivalWorkTime = 0f;
+                            festivalOverTime = 0f;
+                        } else if (holidayType.equals("2")) {
+                            weekdayWorkTime = 0f;
+                            weekdayOverTime = 0f;
+                        }
+                    } else {
+                        if (dayOfWeekInt >= 6) {
+                            weekendWorkTime = 0f;
+                            weekendOverTime = 0f;
+                        } else {
+                            weekdayWorkTime = 0f;
+                            weekdayOverTime = 0f;
+                        }
+                    }
+                }else if(onJob.after(breakStartTime) && onJob.before(breakEndTime) && offJob.after(breakEndTime)){
+                    //12点后13点前打卡上岗，13点后打卡离岗
+                    if (!holidayType.equals("")) {
+                        if (holidayType.equals("1") || holidayType.equals("3")) {
+                            festivalWorkTime = getWorkTime(breakEndTime, offJob);
+                            festivalOverTime = 0f;
+                        } else if (holidayType.equals("2")) {
+                            weekdayWorkTime = getWorkTime(breakEndTime, offJob);
+                            weekdayOverTime = 0f;
+                        }
+                    } else {
+                        if (dayOfWeekInt >= 6) {
+                            weekendWorkTime = getWorkTime(breakEndTime, offJob);
+                            weekendOverTime = 0f;
+                        } else {
+                            weekdayWorkTime = getWorkTime(breakEndTime, offJob);
+                            weekdayOverTime = 0f;
+                        }
+                    }
+                }else {
+                    //13点后打卡上岗，13点后打卡离岗
+                    if (!holidayType.equals("")) {
+                        if (holidayType.equals("1") || holidayType.equals("3")) {
+                            festivalWorkTime = getWorkTime(breakEndTime, offJob);
+                            festivalOverTime = 0f;
+                        } else if (holidayType.equals("2")) {
+                            weekdayWorkTime = getWorkTime(breakEndTime, offJob);
+                            weekdayOverTime = 0f;
+                        }
+                    } else {
+                        if (dayOfWeekInt >= 6) {
+                            weekendWorkTime = getWorkTime(breakEndTime, offJob);
+                            weekendOverTime = 0f;
+                        } else {
+                            weekdayWorkTime = getWorkTime(breakEndTime, offJob);
+                            weekdayOverTime = 0f;
+                        }
                     }
                 }
                 dailyDutyLogEntity.setDay(day);
